@@ -967,7 +967,7 @@
         <a href="https://wa.me/79887888701" target="_blank" rel="noopener noreferrer" class="btn-primary fi d3 btn-desk">Записаться</a>
     </div>
     <div class="detail-video fi d2">
-        <video id="detailVid" muted playsinline preload="none">
+        <video id="detailVid" muted playsinline webkit-playsinline preload="none">
             <source src="images/последний блок (2).mp4" type="video/mp4">
         </video>
         <div id="detailFade"></div>
@@ -1083,6 +1083,19 @@
 </a>
 
 <script>
+    // Centralized autoplay retry (Telegram WebView / iOS restrictions)
+    const _pending = new Set();
+    function _tryPlay(v) {
+        const p = v.play();
+        if (p && typeof p.catch === 'function') p.catch(() => _pending.add(v));
+    }
+    ['touchend', 'click'].forEach(ev =>
+        document.addEventListener(ev, () => {
+            _pending.forEach(v => v.play().catch(() => {}));
+            _pending.clear();
+        }, { passive: true })
+    );
+
     // Hero ping-pong
     (function () {
         const fwd = document.getElementById('heroFwd');
@@ -1150,28 +1163,21 @@
             fwd.pause();
             rev.pause();
             active = fwd;
-            switchTo(fwd, () => { syncGlare(); fwd.play().catch(() => {}); });
+            switchTo(fwd, () => { syncGlare(); _tryPlay(fwd); });
         }
 
         fwd.addEventListener('ended', () => {
             if (!heroVisible) return;
-            rev.load(); // начинаем грузить только сейчас — пока идёт пауза 1.5с
+            rev.load();
             pauseTimer = setTimeout(() => {
                 if (!heroVisible) return;
-                switchTo(rev, () => {
-                    active = rev;
-                    rev.play().catch(() => {});
-                });
+                switchTo(rev, () => { active = rev; _tryPlay(rev); });
             }, 1500);
         });
 
         rev.addEventListener('ended', () => {
             if (!heroVisible) return;
-            switchTo(fwd, () => {
-                active = fwd;
-                syncGlare();
-                fwd.play().catch(() => {});
-            });
+            switchTo(fwd, () => { active = fwd; syncGlare(); _tryPlay(fwd); });
         });
 
         fwd.addEventListener('loadedmetadata', () => setSize(fwd));
@@ -1179,7 +1185,7 @@
 
         fwd.addEventListener('canplaythrough', () => {
             setSize(fwd);
-            if (heroVisible) { syncGlare(); fwd.play().catch(() => {}); }
+            if (heroVisible) { syncGlare(); _tryPlay(fwd); }
         });
 
         // Start/stop based on visibility
@@ -1249,14 +1255,13 @@
         entries.forEach(e => {
             const v = e.target;
             if (e.isIntersecting) {
-                if (v.readyState === 0) v.load();
-                v.currentTime = 0;
-                v.play().catch(() => {
-                    // Autoplay blocked (Telegram/some Android browsers) — retry on first touch
-                    document.addEventListener('touchstart', () => {
-                        v.play().catch(() => {});
-                    }, { once: true, passive: true });
-                });
+                const doPlay = () => { v.currentTime = 0; _tryPlay(v); };
+                if (v.readyState === 0) {
+                    v.load();
+                    v.addEventListener('canplay', doPlay, { once: true });
+                } else {
+                    doPlay();
+                }
             } else {
                 v.pause();
                 v.currentTime = 0;
@@ -1460,8 +1465,12 @@
         new IntersectionObserver((entries) => {
             playing = entries[0].isIntersecting;
             if (playing) {
-                if (vid.readyState === 0) vid.load();
-                vid.play().catch(() => {});
+                if (vid.readyState === 0) {
+                    vid.load();
+                    vid.addEventListener('canplay', () => _tryPlay(vid), { once: true });
+                } else {
+                    _tryPlay(vid);
+                }
             } else {
                 vid.pause();
             }
