@@ -1089,8 +1089,9 @@
         const p = v.play();
         if (p && typeof p.catch === 'function') p.catch(() => _pending.add(v));
     }
-    ['touchend', 'click'].forEach(ev =>
+    ['touchstart', 'touchend', 'click'].forEach(ev =>
         document.addEventListener(ev, () => {
+            if (!_pending.size) return;
             _pending.forEach(v => v.play().catch(() => {}));
             _pending.clear();
         }, { passive: true })
@@ -1101,6 +1102,24 @@
         const fwd = document.getElementById('heroFwd');
         const rev = document.getElementById('heroRev');
         const cvs = document.getElementById('heroCanvas');
+
+        // Mobile: show video element directly — iOS WebView blocks canvas.drawImage(video)
+        if (window.innerWidth <= 768) {
+            cvs.style.display = 'none';
+            fwd.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;' +
+                'object-fit:cover;object-position:58% center;opacity:0;pointer-events:none;transition:opacity 1.2s ease;';
+            fwd.setAttribute('loop', '');
+            fwd.querySelector('source').src = 'images/новый блок м.mp4';
+            const reveal = () => {
+                fwd.style.opacity = '1';
+                document.querySelector('#hero .hero-content').style.opacity = '1';
+            };
+            fwd.addEventListener('canplay', () => { reveal(); _tryPlay(fwd); }, { once: true });
+            setTimeout(reveal, 2500);
+            fwd.load();
+            return;
+        }
+
         const ctx = cvs.getContext('2d', { alpha: false });
         let active = fwd;
         let heroVisible = false;
@@ -1255,6 +1274,7 @@
         entries.forEach(e => {
             const v = e.target;
             if (e.isIntersecting) {
+                v.setAttribute('autoplay', '');
                 const doPlay = () => { v.currentTime = 0; _tryPlay(v); };
                 if (v.readyState === 0) {
                     v.load();
@@ -1263,6 +1283,7 @@
                     doPlay();
                 }
             } else {
+                v.removeAttribute('autoplay');
                 v.pause();
                 v.currentTime = 0;
             }
@@ -1465,6 +1486,7 @@
         new IntersectionObserver((entries) => {
             playing = entries[0].isIntersecting;
             if (playing) {
+                vid.setAttribute('autoplay', '');
                 if (vid.readyState === 0) {
                     vid.load();
                     vid.addEventListener('canplay', () => _tryPlay(vid), { once: true });
@@ -1472,6 +1494,7 @@
                     _tryPlay(vid);
                 }
             } else {
+                vid.removeAttribute('autoplay');
                 vid.pause();
             }
         }, { threshold: 0.25 }).observe(vid.closest('section') || vid);
