@@ -1,0 +1,1520 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mukhtar Ruli — Премиум автостудия в Махачкале</title>
+    <meta name="description" content="Mukhtar Ruli — премиум автостудия в Махачкале. Авточехлы, накидки, EVA-полики, обтяжка рулей и детейлинг салона. п. Семендер, ул. Кирова 56.">
+    <meta name="theme-color" content="#080808">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500&family=Barlow+Condensed:ital,wght@1,700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:       #080808;
+            --s1:       #111111;
+            --s2:       #161616;
+            --border:   #222222;
+            --red:      #c8102e;
+            --red-glow: rgba(200,16,46,0.12);
+            --text:     #f0ede8;
+            --text2:    #999999;
+            --text3:    #484848;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            font-weight: 300;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--red); }
+
+        /* ─── HEADER ─────────────────────────────── */
+        #header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 28px 64px;
+            background: linear-gradient(to bottom, rgba(8,8,8,.9) 0%, transparent 100%);
+            transition: padding .3s, background .3s, border-color .3s;
+            border-bottom: none;
+        }
+        #header.scrolled {
+            padding: 18px 64px;
+            background: rgba(8,8,8,.97);
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 21px; font-weight: 700;
+            letter-spacing: .06em; color: var(--text); text-decoration: none;
+            opacity: 0;
+            transition: opacity .4s ease;
+        }
+        .logo em { color: var(--red); font-style: normal; }
+        #header.scrolled .logo { opacity: 1; }
+
+        nav { display: flex; gap: 36px; align-items: center; }
+        nav a {
+            color: var(--text2); text-decoration: none;
+            font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+            font-weight: 500;
+            transition: color .2s;
+        }
+        nav a:hover { color: var(--text); }
+        .nav-cta {
+            border: 1px solid rgba(200,16,46,.45) !important;
+            color: var(--red) !important;
+            padding: 9px 22px; transition: all .25s !important;
+        }
+        .nav-cta:hover { background: var(--red) !important; color: var(--text) !important; }
+
+        /* ─── HERO ────────────────────────────────── */
+        @keyframes hero-load { from { opacity: 0; } to { opacity: 1; } }
+        #hero {
+            position: relative; width: 100%; height: 100vh; min-height: 680px;
+            display: flex; align-items: center; overflow: hidden;
+            background: var(--bg);
+        }
+        #heroCanvas { animation: hero-load 1.2s ease forwards; }
+
+        .hero-video {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(108deg,
+                rgba(8,8,8,.58)  0%,
+                rgba(8,8,8,.18) 45%,
+                rgba(8,8,8,0)   100%);
+        }
+
+        .hero-content {
+            position: relative; z-index: 2;
+            padding: 0 64px; max-width: 680px;
+        }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 12px;
+            font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
+            color: var(--red); margin-bottom: 30px;
+        }
+        .hero-badge::before {
+            content: ''; width: 36px; height: 1px; background: var(--red);
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(58px, 8vw, 108px);
+            font-weight: 900; line-height: .92;
+            letter-spacing: -.02em; margin-bottom: 28px;
+        }
+        .hero-title .red { color: var(--red); font-style: italic; }
+        @keyframes hero-glare {
+            0%   { background-position: 100% center; }
+            20%  { background-position: 0% center; }
+            100% { background-position: 0% center; }
+        }
+        .hero-line1 {
+            display: inline-block;
+            background: linear-gradient(90deg,
+                #f0ede8 40%, #f0ede8 46%,
+                rgba(255,255,255,.75) 48%, #ffffff 50%, rgba(255,255,255,.75) 52%,
+                #f0ede8 54%, #f0ede8 60%
+            );
+            background-size: 280% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: hero-glare 11.5s linear infinite;
+            animation-delay: 2s;
+        }
+        .hero-title .red {
+            display: inline-block;
+            background: linear-gradient(90deg,
+                #c8102e 40%, #c8102e 46%,
+                rgba(255,170,180,.9) 48%, #ffbfc5 50%, rgba(255,170,180,.9) 52%,
+                #c8102e 54%, #c8102e 60%
+            );
+            background-size: 280% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: hero-glare 11.5s linear infinite;
+            animation-delay: 3.3s;
+        }
+
+        .hero-sub {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(17px, 2.2vw, 26px);
+            font-style: italic; font-weight: 400;
+            color: var(--text2); margin-bottom: 28px;
+            letter-spacing: .01em;
+        }
+
+        .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--red); color: var(--text);
+            text-decoration: none; padding: 15px 38px;
+            font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
+            transition: background .25s, transform .25s;
+        }
+        .btn-primary:hover { background: #df1430; transform: translateY(-2px); }
+
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: 10px;
+            border: 1px solid rgba(240,237,232,.22); color: var(--text2);
+            text-decoration: none; padding: 15px 38px;
+            font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
+            transition: all .25s;
+        }
+        .btn-ghost:hover { border-color: rgba(240,237,232,.5); color: var(--text); }
+
+
+        /* ─── SERVICES STRIP ─────────────────────── */
+        #services {
+            display: grid; grid-template-columns: repeat(4,1fr);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .srv {
+            padding: 44px 48px; border-right: 1px solid var(--border);
+            position: relative; overflow: hidden;
+            transition: background .3s; cursor: default;
+        }
+        .srv:last-child { border-right: none; }
+        .srv:hover { background: var(--s1); }
+        .srv::after {
+            content: ''; position: absolute; bottom: 0; left: 0;
+            height: 2px; width: 0; background: var(--red); transition: width .4s;
+        }
+        .srv:hover::after { width: 100%; }
+
+        .srv-num { font-size: 10px; letter-spacing: .18em; color: var(--red); margin-bottom: 22px; }
+        .srv-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 19px; font-weight: 700; line-height: 1.2; margin-bottom: 12px;
+        }
+        .srv-txt { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+        /* ─── SHARED ──────────────────────────────── */
+        .tag {
+            display: inline-flex; align-items: center; gap: 12px;
+            font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+            color: var(--red); margin-bottom: 22px;
+        }
+        .tag::before { content: ''; width: 28px; height: 1px; background: var(--red); }
+
+        .sec-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(44px, 5.2vw, 74px);
+            font-weight: 700; line-height: 1.06;
+            letter-spacing: -.02em; margin-bottom: 32px;
+        }
+        .sec-title em { font-style: italic; color: var(--text2); }
+
+        .sec-body { font-size: 15px; color: var(--text2); line-height: 2; max-width: 460px; }
+        .sec-body p + p { margin-top: 24px; }
+
+        .features { display: flex; flex-direction: column; gap: 20px; margin-top: 44px; }
+        .feat { display: flex; gap: 14px; align-items: flex-start; }
+        .feat-dot {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: var(--red); flex-shrink: 0; margin-top: 8px;
+        }
+        .feat-txt { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+        .feat-txt strong { color: var(--text); font-weight: 500; }
+
+        .divider { height: 1px; background: var(--border); margin: 0 64px; }
+
+        /* ─── SPLIT SECTIONS ──────────────────────── */
+        .split {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 48px; align-items: center;
+            padding: 110px 64px 110px 160px;
+        }
+
+
+        .split .sec-title { font-size: clamp(44px, 5.2vw, 74px); line-height: 1.02; }
+        .split .sec-body { font-size: 17px; line-height: 1.75; }
+        .split .feat-txt { font-size: 15.5px; line-height: 1.55; }
+        .split .features { gap: 18px; margin-top: 44px; }
+
+        .split-media { position: relative; }
+        .split-media video {
+            width: 100%; height: 560px;
+            object-fit: cover; display: block;
+        }
+
+        /* ─── COVERS (ЧЕХЛЫ) ──────────────────────── */
+        #covers {
+            background: var(--s1);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 72px 64px 110px;
+        }
+
+        .covers-header {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 68px; gap: 40px;
+        }
+        .covers-big {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(44px, 5.2vw, 74px);
+            font-weight: 700; line-height: 1.06; letter-spacing: -.02em;
+            margin-bottom: 68px;
+        }
+        .covers-big em { color: var(--red); font-style: italic; }
+        .covers-side { max-width: 360px; font-size: 15px; color: var(--text2); line-height: 1.8; }
+
+        .cards-grid {
+            display: grid; grid-template-columns: repeat(3,1fr); gap: 2px;
+        }
+
+        .card {
+            background: var(--s2); border: 1px solid var(--border);
+            padding: 96px 58px; transition: border-color .3s, background .3s;
+            position: relative; overflow: hidden;
+        }
+        .card:hover { border-color: rgba(200,16,46,.5); background: #0d0d0d; }
+
+        .card-icon {
+            width: 66px; height: 66px;
+            background: var(--red-glow); border: 1px solid rgba(200,16,46,.22);
+            display: flex; align-items: center; justify-content: center; margin-bottom: 38px;
+        }
+        .card-icon svg { width: 27px; height: 27px; stroke: var(--red); fill: none; stroke-width: 1.5; }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 34px; font-weight: 700; margin-bottom: 20px; line-height: 1.2;
+        }
+        .card-txt { font-size: 17px; color: var(--text2); line-height: 1.8; }
+
+        .card-vid {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.04);
+            filter: blur(6px);
+            transition: opacity .35s ease, transform .35s ease, filter .35s ease;
+        }
+        .card:hover .card-vid { opacity: 1; transform: scale(1); filter: blur(0); transition: opacity .4s ease, transform .4s ease, filter .55s ease; }
+        .card.d2 .card-vid { transform: scale(1.08); }
+        .card.d2:hover .card-vid { transform: scale(1); filter: blur(0); transition: opacity .4s ease, transform .45s cubic-bezier(0.22, 1, 0.36, 1), filter .55s ease; }
+        .card.d3 .card-vid,
+        .card.d3:hover .card-vid { opacity: 0; transform: scale(1); filter: blur(0); object-fit: cover; object-position: center 30%; transition: opacity .2s ease; }
+        .card.d3 .card-d3-fwd,
+        .card.d3 .card-d3-rev { object-position: 0% 30%; }
+        .card.d3 .card-d3-rev { transition: opacity .2s ease; }
+        .card-icon, .card-title, .card-txt { transition: opacity .35s ease; }
+        .card:hover .card-icon,
+        .card:hover .card-title,
+        .card:hover .card-txt { opacity: 0; }
+
+        .card-overlay-txt {
+            position: absolute; z-index: 2;
+            left: 36px; top: 36px;
+            opacity: 0; transform: translateY(8px);
+            transition: opacity .2s ease, transform .2s ease;
+            pointer-events: none;
+        }
+        .card-overlay-txt--right { left: auto; right: 36px; text-align: right; }
+        .card:hover .card-overlay-txt { opacity: 1; transform: translateY(0); transition: opacity .5s ease .1s, transform .5s ease .1s; }
+        .card.d1 .card-overlay-txt { filter: blur(10px); transform: none; transition: opacity .35s ease, filter .35s ease; }
+        .card.d1:hover .card-overlay-txt { filter: blur(0); transition: opacity .5s ease .05s, filter .55s ease .05s; }
+        .card.d2 .card-overlay-txt { opacity: 0; transform: translateX(-28px); transition: opacity .35s ease, transform .35s cubic-bezier(0.22, 1, 0.36, 1); }
+        .card.d2:hover .card-overlay-txt { opacity: 1; transform: translateX(0); transition: opacity .5s ease .05s, transform .55s cubic-bezier(0.22, 1, 0.36, 1) .05s; }
+        .card.d3 .card-overlay-txt { filter: blur(10px); transform: none; opacity: 0; transition: opacity .35s ease, filter .35s ease; }
+        .card.d3:hover .card-overlay-txt { opacity: 0.78; filter: blur(0); transition: opacity .5s ease .05s, filter .55s ease .05s; }
+        @property --p1 { syntax: '<percentage>'; inherits: false; initial-value: 5%; }
+        @property --p2 { syntax: '<percentage>'; inherits: false; initial-value: 5%; }
+        @property --p3 { syntax: '<percentage>'; inherits: false; initial-value: 5%; }
+        @keyframes txt-pearl {
+            0%, 100% { --p1: 5%; }
+            50%       { --p1: 47%; }
+        }
+        @keyframes txt-red {
+            0%, 100% { --p2: 5%; }
+            50%       { --p2: 47%; }
+        }
+        .card.d1:hover .card-overlay-txt strong {
+            background: linear-gradient(90deg,
+                rgba(255,255,255,0.65) 0%,
+                #ffffff var(--p1),
+                rgba(255,255,255,0.65) 50%,
+                #ffffff calc(100% - var(--p1)),
+                rgba(255,255,255,0.65) 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: txt-pearl 2.5s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+        .card.d2:hover .card-overlay-txt strong {
+            background: linear-gradient(90deg,
+                rgba(255,255,255,0.65) 0%,
+                #ffffff var(--p2),
+                rgba(255,255,255,0.65) 50%,
+                #ffffff calc(100% - var(--p2)),
+                rgba(255,255,255,0.65) 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: txt-red 2.5s ease-in-out infinite;
+            animation-delay: 0.6s;
+        }
+        @keyframes txt-amber {
+            0%, 100% { --p3: 5%; }
+            50%       { --p3: 47%; }
+        }
+        .card.d3:hover .card-overlay-txt strong {
+            background: linear-gradient(90deg,
+                rgba(255,255,255,0.45) 0%,
+                #ffffff var(--p3),
+                rgba(255,255,255,0.45) 50%,
+                #ffffff calc(100% - var(--p3)),
+                rgba(255,255,255,0.45) 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: txt-amber 2.5s ease-in-out infinite;
+            animation-delay: 0.6s;
+        }
+        .card-overlay-txt strong {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(22px, 2.2vw, 30px);
+            font-weight: 700; font-style: italic;
+            color: #ffffff;
+            line-height: 1.15; letter-spacing: -.01em;
+            text-shadow: 0 2px 20px rgba(0,0,0,.4);
+        }
+
+        /* ─── DETAILING ───────────────────────────── */
+        #detailing {
+            padding: 110px 64px;
+            display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 48px; align-items: center;
+        }
+
+        .detail-video {
+            position: relative; overflow: hidden;
+            border: 1px solid var(--border); aspect-ratio: 3/4;
+        }
+        .detail-video video {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .detail-video::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(8,8,8,.18) 0%, rgba(8,8,8,.45) 100%);
+            pointer-events: none;
+        }
+        #detailFade {
+            position: absolute; inset: 0; z-index: 3;
+            background: #080808; opacity: 0;
+            transition: opacity .8s ease;
+            pointer-events: none;
+        }
+
+        .detail-card {
+            background: var(--s1); border: 1px solid var(--border);
+            padding: 52px; position: relative; overflow: hidden;
+        }
+        .detail-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 3px; height: 100%; background: var(--red);
+        }
+        .detail-card-tag { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--red); margin-bottom: 18px; }
+        .detail-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px; font-weight: 700; margin-bottom: 28px; line-height: 1.25;
+        }
+
+        .guarantee {
+            margin-top: 32px; padding: 18px 22px;
+            background: var(--red-glow); border-left: 2px solid var(--red);
+        }
+        .guarantee p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+        .guarantee strong { color: var(--red); font-weight: 500; }
+
+        /* ─── CONTACTS ────────────────────────────── */
+        #contacts {
+            background: var(--s1);
+            border-top: 1px solid var(--border);
+            padding: 110px 64px 80px;
+        }
+
+        .contacts-head { margin-bottom: 64px; }
+
+        .phones-grid {
+            display: grid; grid-template-columns: repeat(3,1fr);
+            gap: 20px; margin-bottom: 52px;
+        }
+
+        .phone-card {
+            background: var(--bg); border: 1px solid var(--border);
+            padding: 32px 28px; transition: border-color .3s;
+        }
+        .phone-card:hover { border-color: rgba(200,16,46,.4); }
+        .phone-label { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--text3); margin-bottom: 14px; }
+        .phone-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 23px; font-weight: 700; color: var(--text);
+            text-decoration: none; display: block; margin-bottom: 6px;
+            transition: color .2s;
+        }
+        .phone-num:hover { color: var(--red); }
+        .phone-name { font-size: 13px; color: var(--text3); }
+
+        .address-row {
+            display: flex; align-items: flex-start; gap: 20px;
+            justify-content: center;
+            padding: 36px 0; margin-bottom: 48px;
+        }
+        .address-icon {
+            width: 44px; height: 44px; flex-shrink: 0;
+            background: var(--red-glow); border: 1px solid rgba(200,16,46,.22);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .address-icon svg { width: 18px; height: 18px; stroke: var(--red); fill: none; stroke-width: 1.5; }
+        .address-text { font-size: 15px; color: var(--text2); line-height: 1.7; }
+        .address-text strong { color: var(--text); font-weight: 500; font-size: 16px; }
+
+        .socials { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+        .social-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            border: 1px solid var(--border); color: var(--text2);
+            text-decoration: none; padding: 12px 24px;
+            font-size: 12px; letter-spacing: .08em;
+            transition: all .25s;
+        }
+        .social-btn svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+        .social-btn:hover { border-color: var(--red); color: var(--red); }
+        .social-btn.ig { border-color: rgba(225,48,108,.3); color: #e1306c; }
+        .social-btn.ig:hover { border-color: #e1306c; color: #ff4d8d; }
+        .social-btn.tg { border-color: rgba(42,171,238,.3); color: #2aabee; }
+        .social-btn.tg:hover { border-color: #2aabee; color: #5bc8f5; }
+        .social-btn.wa { border-color: rgba(37,211,102,.3); color: #25D366; }
+        .social-btn.wa:hover { border-color: #25D366; }
+
+        /* ─── MAP ─────────────────────────────────── */
+        #map { position: relative; }
+        #map iframe {
+            width: 100%; height: 460px; border: none; display: block;
+            filter: grayscale(.8) contrast(1.1) brightness(.65);
+        }
+        .map-card {
+            position: absolute; top: 50%; left: 64px; transform: translateY(-50%);
+            background: rgba(8,8,8,.96); border: 1px solid var(--border);
+            border-left: 3px solid var(--red);
+            padding: 36px 40px; min-width: 300px;
+        }
+        .map-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px; font-weight: 700; margin-bottom: 10px;
+        }
+        .map-card-addr { font-size: 14px; color: var(--text2); line-height: 1.8; margin-bottom: 22px; }
+        .map-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+            color: var(--red); text-decoration: none;
+            border: 1px solid rgba(200,16,46,.4); padding: 10px 20px;
+            transition: all .25s;
+        }
+        .map-link:hover { background: var(--red); color: var(--text); }
+
+        /* ─── FOOTER ──────────────────────────────── */
+        footer {
+            background: var(--bg); border-top: 1px solid var(--border);
+            padding: 36px 64px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 24px;
+        }
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; }
+        .footer-logo em { color: var(--red); font-style: normal; }
+        .footer-dev {
+            grid-column: 1 / -1;
+            display: block; text-align: center;
+            font-size: 11.5px; color: var(--text3); font-weight: 500;
+            text-decoration: none; letter-spacing: .04em;
+            padding-top: 16px; border-top: 1px solid var(--border);
+            transition: color .3s ease, letter-spacing .3s ease;
+        }
+        .footer-dev:hover { color: var(--text2); letter-spacing: .06em; }
+        .footer-copy {
+            font-size: 12px; color: var(--text3);
+            display: flex; flex-direction: column; align-items: center; gap: 5px;
+            text-align: center;
+        }
+        .footer-legal { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; justify-self: end; }
+        .footer-legal a { font-size: 11px; color: var(--text3); text-decoration: none; letter-spacing: .04em; transition: color .2s; }
+        .footer-legal a:hover { color: var(--text2); }
+
+        /* ─── BURGER ─────────────────────────────── */
+        .burger {
+            display: none;
+            flex-direction: column; justify-content: center; gap: 5px;
+            background: none; border: none; cursor: pointer;
+            padding: 4px; width: 36px; height: 32px;
+        }
+        .burger span {
+            display: block; width: 22px; height: 1.5px;
+            background: var(--text);
+            transition: transform .3s ease, opacity .3s ease;
+            transform-origin: center;
+        }
+        .burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+        .burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+        /* ─── MOBILE MENU ─────────────────────────── */
+        .mob-menu {
+            display: none;
+            position: fixed; inset: 0; z-index: 190;
+            background: rgba(8,8,8,.98);
+            flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; transition: opacity .3s ease;
+        }
+        .mob-menu.open { display: flex; }
+        .mob-menu.visible { opacity: 1; }
+        .mob-nav {
+            display: flex; flex-direction: column; align-items: center;
+            width: 100%; padding: 0 32px;
+        }
+        .mob-nav a {
+            font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+            color: var(--text2); text-decoration: none;
+            padding: 20px 0; width: 100%; text-align: center;
+            border-bottom: 1px solid var(--border);
+            transition: color .2s;
+            font-weight: 500;
+        }
+        .mob-nav a:first-child { border-top: 1px solid var(--border); }
+        .mob-nav a:hover, .mob-nav a:active { color: var(--text); }
+        .mob-nav-cta {
+            margin-top: 36px;
+            font-family: 'Playfair Display', serif;
+            font-size: 22px !important; letter-spacing: .04em !important;
+            color: var(--text) !important; border: none !important;
+            font-weight: 700;
+        }
+        .mob-nav-cta em { color: var(--red); font-style: normal; }
+
+        /* ─── WA FLOAT ────────────────────────────── */
+        .wa-float {
+            position: fixed; bottom: 30px; right: 30px; z-index: 999;
+            width: 54px; height: 54px; border-radius: 50%;
+            background: #25D366;
+            display: flex; align-items: center; justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 22px rgba(37,211,102,.38);
+            transition: transform .35s ease, box-shadow .25s, opacity .35s ease;
+        }
+        .wa-float:hover { transform: scale(1.12); box-shadow: 0 6px 30px rgba(37,211,102,.55); }
+        .wa-float svg { width: 27px; height: 27px; fill: #fff; }
+        .wa-float.hidden { opacity: 0; transform: scale(0.7); pointer-events: none; }
+
+        .btn-mob { display: none; }
+        .btn-desk { margin-top: 36px; }
+
+        @keyframes card-shimmer {
+            0%   { transform: translateX(-180%) skewX(-18deg); opacity: 0; }
+            7%   { opacity: 1; }
+            48%  { transform: translateX(280%) skewX(-18deg); opacity: 0; }
+            49%  { transform: translateX(-180%) skewX(-18deg); opacity: 0; }
+            100% { transform: translateX(-180%) skewX(-18deg); opacity: 0; }
+        }
+        .card::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(255,255,255,.01) 25%,
+                rgba(255,255,255,.07) 42%,
+                rgba(255,255,255,.18) 50%,
+                rgba(255,255,255,.07) 58%,
+                rgba(255,255,255,.01) 75%,
+                transparent 100%
+            );
+            transform: translateX(-180%) skewX(-18deg);
+            animation: card-shimmer 18s linear infinite;
+            will-change: transform, opacity;
+            pointer-events: none; z-index: 3;
+        }
+        .card:nth-child(2)::after { animation-delay: 6s; }
+        .card:nth-child(3)::after { animation-delay: 12s; }
+        .card:hover::after { opacity: 0 !important; animation-play-state: paused; }
+
+        /* ─── ANIMATIONS ──────────────────────────── */
+        .fi {
+            opacity: 0;
+            transition: opacity .7s ease;
+        }
+        .fi.v { opacity: 1; }
+        .fi:not(.v).d1 { transition-delay: .1s; }
+        .fi:not(.v).d2 { transition-delay: .2s; }
+        .fi:not(.v).d3 { transition-delay: .3s; }
+        .fi:not(.v).d4 { transition-delay: .4s; }
+
+        /* ─── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 1200px) {
+            #detailing { grid-template-columns: 1fr 1fr; }
+            .detail-video { display: none; }
+        }
+        @media (max-width: 1060px) {
+            #header { padding: 22px 32px; }
+            #header.scrolled { padding: 16px 32px; }
+            .hero-content { padding: 0 32px; }
+            .divider { margin: 0 32px; }
+            .split { gap: 48px; padding: 80px 32px; }
+            #covers, #detailing, #contacts { padding: 80px 32px; }
+            .map-card { left: 32px; }
+            nav { gap: 20px; }
+            /* Cards: 3→1 column — avoids orphaned 3rd card in 2-col layout */
+            .cards-grid { grid-template-columns: 1fr; }
+            .card { padding: 68px 44px; }
+            .card-title { font-size: 30px; }
+
+        }
+
+        @media (max-width: 768px) {
+            .card::after { will-change: auto; animation: none; }
+            nav { display: none; }
+            .burger { display: flex; }
+            .sec-title { font-size: clamp(44px, 5.2vw, 74px); }
+            .covers-big { font-size: clamp(44px, 5.2vw, 74px); text-align: left !important; }
+            .hero-video { object-position: 58% center; }
+            .hero-content { padding: 0 24px; transform: translateY(-60px); }
+            .hero-badge { font-size: 9px; letter-spacing: .14em; gap: 8px; }
+            .hero-badge::before { width: 24px; }
+            #services { grid-template-columns: 1fr 1fr; }
+            .srv { padding: 28px 22px; border-right: none; border-bottom: 1px solid var(--border); }
+            .srv:nth-child(odd) { border-right: 1px solid var(--border); }
+            .srv-name { font-size: 16px; }
+            .split { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
+            .split-media video { height: 300px; }
+            .covers-header { flex-direction: column; align-items: flex-start; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .card { padding: 52px 32px; }
+            .card-title { font-size: 26px; }
+            .card-overlay-txt strong { font-size: clamp(18px, 4.5vw, 22px); }
+            .card.d3 .card-d3-fwd,
+            .card.d3 .card-d3-rev { object-position: 75% 25% !important; }
+            #detailing { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
+            .detail-card { padding: 36px 28px; }
+            .detail-card-title { font-size: 22px; }
+            .phones-grid { grid-template-columns: 1fr; }
+            .phone-num { font-size: 19px; }
+            #contacts { padding: 60px 24px; }
+            #covers { padding: 60px 24px; }
+            .map-card { position: static; transform: none; margin: 0; min-width: 0; border-left: none; border-top: 3px solid var(--red); }
+            #map iframe { height: 300px; }
+            footer { grid-template-columns: 1fr; gap: 14px; padding: 28px 24px; }
+            .footer-copy { align-items: flex-start; text-align: left; }
+            .footer-legal { justify-self: end; gap: 16px; flex-direction: column; align-items: flex-end; }
+            /* button after animation on mobile */
+            .btn-desk { display: none !important; }
+            .btn-mob  { display: inline-flex !important; margin-top: 28px; align-self: start; justify-self: start; }
+        }
+
+        /* Touch devices / narrow screens: disable all card hover effects and shimmer */
+        @media (hover: none), (max-width: 1199px) {
+            .card:hover { border-color: var(--border); background: var(--s2); }
+            .card:hover .card-vid { opacity: 0 !important; transform: scale(1.04) !important; filter: blur(6px) !important; }
+            .card:hover .card-overlay-txt { opacity: 0 !important; }
+            .card:hover .card-icon,
+            .card:hover .card-title,
+            .card:hover .card-txt { opacity: 1 !important; }
+            .card::after { animation: none; opacity: 0 !important; }
+            .card.d3 .card-d3-fwd,
+            .card.d3 .card-d3-rev { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            #header { padding: 18px 20px; }
+            #header.scrolled { padding: 14px 20px; }
+            .hero-content { padding: 0 20px; }
+            .hero-btns { flex-direction: column; }
+            .btn-primary, .btn-ghost { padding: 13px 28px; font-size: 12px; justify-content: center; }
+            .divider { margin: 0 20px; }
+            #services { grid-template-columns: 1fr; }
+            .srv { padding: 24px 20px; border-right: none; }
+            .split { padding: 48px 20px; }
+            #covers { padding: 48px 20px; }
+            .covers-big { font-size: clamp(44px, 8vw, 64px); line-height: 1.3; }
+            .card { padding: 40px 22px; }
+            .card-title { font-size: 23px; }
+            #detailing { padding: 48px 20px; }
+            .detail-card { padding: 28px 20px; }
+            .detail-card-title { font-size: 20px; }
+            #contacts { padding: 48px 20px; }
+            .phone-num { font-size: 17px; }
+            .map-card { padding: 24px 20px; }
+            footer { padding: 24px 20px; gap: 12px; }
+            .footer-legal { gap: 10px; justify-self: end; flex-direction: column; align-items: flex-end; }
+            .sec-title { font-size: clamp(44px, 8vw, 64px); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════════ -->
+<header id="header">
+    <a href="#" class="logo">MUKHTAR <em>RULI</em></a>
+    <nav>
+        <a href="#services">Услуги</a>
+        <a href="#covers">Чехлы</a>
+        <a href="#detailing">Детейлинг</a>
+        <a href="#contacts">Контакты</a>
+        <a href="tel:+79894692075" class="nav-cta">+7 (989) 469-20-75</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Меню">
+        <span></span><span></span><span></span>
+    </button>
+</header>
+
+<!-- ══ MOBILE MENU ═════════════════════════════════════════════ -->
+<div class="mob-menu" id="mobMenu">
+    <nav class="mob-nav">
+        <a href="#services" class="mob-link">Услуги</a>
+        <a href="#covers" class="mob-link">Чехлы</a>
+        <a href="#detailing" class="mob-link">Детейлинг</a>
+        <a href="#contacts" class="mob-link">Контакты</a>
+        <a href="tel:+79894692075" class="mob-nav-cta">MUKHTAR <em>RULI</em></a>
+    </nav>
+</div>
+
+<!-- ══ HERO ════════════════════════════════════════════════════ -->
+<section id="hero">
+    <video id="heroFwd" muted playsinline webkit-playsinline preload="metadata" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
+        <source src="images/новый блок.mp4" type="video/mp4">
+    </video>
+    <video id="heroRev" muted playsinline webkit-playsinline preload="none" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
+        <source src="images/новый блок reversed.mp4" type="video/mp4">
+    </video>
+    <canvas id="heroCanvas" class="hero-video"></canvas>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <div class="hero-badge">Автостудия · Махачкала · Семендер</div>
+        <h1 class="hero-title">
+            <span class="hero-line1">MUKHTAR</span><br><span class="red">RULI</span>
+        </h1>
+        <p class="hero-sub">Премиум автостудия в Махачкале</p>
+        <div class="hero-btns">
+            <a href="https://wa.me/79288735764" target="_blank" rel="noopener noreferrer" class="btn-primary">Записаться</a>
+            <a href="#services" class="btn-ghost">Наши услуги</a>
+        </div>
+    </div>
+
+</section>
+
+<!-- ══ SERVICES STRIP ══════════════════════════════════════════ -->
+<div id="services">
+    <div class="srv fi d1">
+        <div class="srv-num">01</div>
+        <div class="srv-name">Авточехлы<br>и накидки</div>
+        <div class="srv-txt">Модельные чехлы под любой автомобиль — точная посадка, премиальные материалы</div>
+    </div>
+    <div class="srv fi d2">
+        <div class="srv-num">02</div>
+        <div class="srv-name">EVA-полики</div>
+        <div class="srv-txt">Готовые комплекты в наличии и изготовление на заказ — под вашу модель, от 1 часа</div>
+    </div>
+    <div class="srv fi d3">
+        <div class="srv-num">03</div>
+        <div class="srv-name">Обтяжка<br>рулей</div>
+        <div class="srv-txt">Оплётки и перетяжка рулей вручную — любой материал, срок от 30 минут</div>
+    </div>
+    <div class="srv fi d4">
+        <div class="srv-num">04</div>
+        <div class="srv-name">Детейлинг<br>салона</div>
+        <div class="srv-txt">Комплексная чистка и уход за салоном с гарантией результата</div>
+    </div>
+</div>
+
+<!-- ══ STEERING WHEEL ══════════════════════════════════════════ -->
+<div class="split" id="ruli">
+    <div>
+        <div class="tag fi">Обтяжка рулей</div>
+        <h2 class="sec-title fi d1"><span style="text-transform:uppercase;letter-spacing:.04em;">Руль</span> —<br>твой <em>характер</em></h2>
+        <div class="sec-body fi d2">
+            <p>Оплётки и перетяжка рулей вручную — точный крой, ровные швы, любой материал.</p>
+            <p>Работаем с любым автомобилем — от классики до спорткара. Подберём материал, цвет и строчку под ваш стиль.</p>
+        </div>
+        <div class="features fi d3">
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Натуральная кожа и алькантара</strong> — материалы высшей категории</div></div>
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Любой цвет и прострочка</strong> — делаем строго под ваш запрос</div></div>
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Ручная работа</strong> — каждый стежок на совесть</div></div>
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Срок от 30 минут</strong> — без долгого ожидания</div></div>
+        </div>
+        <a href="https://wa.me/79288735764" target="_blank" rel="noopener noreferrer" class="btn-primary fi d4 btn-desk">Записаться</a>
+    </div>
+    <div class="split-media fi d2">
+        <video muted loop playsinline preload="none" class="scroll-video">
+            <source src="images/анимация руля.mp4" type="video/mp4">
+        </video>
+    </div>
+    <a href="https://wa.me/79288735764" target="_blank" rel="noopener noreferrer" class="btn-primary btn-mob fi">Записаться</a>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ COVERS / ЧЕХЛЫ ══════════════════════════════════════════ -->
+<div id="covers">
+    <div class="tag fi">Авточехлы и накидки</div>
+    <div class="covers-big fi d1" style="text-align:center;"><span style="text-transform:uppercase;letter-spacing:.04em;">Защита</span><br><em style="color:var(--red);">без </em><em>компромиссов</em></div>
+
+    <div class="cards-grid">
+        <div class="card fi d1">
+            <video class="card-vid" muted loop playsinline preload="none">
+                <source src="images/итог вар 1 картинка 4s.mp4" type="video/mp4">
+            </video>
+            <div class="card-overlay-txt card-overlay-txt--right">
+                <strong>Быстрая<br>защита</strong>
+            </div>
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+            </div>
+            <div class="card-title">Накидки на сиденья</div>
+            <div class="card-txt">Универсальные накидки для быстрой защиты сидений — удобно, стильно, практично. Всегда в наличии.</div>
+        </div>
+        <div class="card fi d2">
+            <video class="card-vid" muted loop playsinline preload="none">
+                <source src="images/первая анимация блока Авточехлы и накидки.mp4" type="video/mp4">
+            </video>
+            <div class="card-overlay-txt">
+                <strong>Точная<br>посадка</strong>
+            </div>
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M21 8H3a1 1 0 00-1 1v6a1 1 0 001 1h18a1 1 0 001-1V9a1 1 0 00-1-1zM3 10h18v4H3v-4z"/><path d="M7 6V5a1 1 0 011-1h8a1 1 0 011 1v1"/></svg>
+            </div>
+            <div class="card-title">Модельные авточехлы</div>
+            <div class="card-txt">Модельные чехлы под конкретный автомобиль — садятся как родные, не съезжают и не морщат.</div>
+        </div>
+        <div class="card fi d3">
+            <video class="card-vid card-d3-fwd" muted playsinline preload="none">
+                <source src="images/блок чехлы 3 анимация сжато.mp4" type="video/mp4">
+            </video>
+            <video class="card-vid card-d3-rev" muted playsinline preload="none" style="opacity:0;transition:opacity .15s ease;">
+                <source src="images/блок чехлы 3 анимация reversed.mp4" type="video/mp4">
+            </video>
+            <div class="card-overlay-txt">
+                <strong>Премиум<br>качество</strong>
+            </div>
+            <div class="card-icon">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <div class="card-title">Широкий выбор материалов</div>
+            <div class="card-txt">Экокожа, жаккард, велюр — подберём материал под ваш вкус и бюджет. Большой выбор расцветок.</div>
+        </div>
+    </div>
+
+    <a href="https://wa.me/79288735764" target="_blank" rel="noopener noreferrer" class="btn-primary fi" style="margin-top: 84px;">Подобрать вариант</a>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ FLOOR MATS / ПОЛИКИ ══════════════════════════════════════ -->
+<div class="split" id="poliki">
+    <div>
+        <div class="tag fi">Полики EVA</div>
+        <h2 class="sec-title fi d1"><span style="text-transform:uppercase;letter-spacing:.04em;">Своя</span><br><em>мастерская</em></h2>
+        <div class="sec-body fi d2">
+            <p>Мы изготавливаем и продаём полики EVA самостоятельно — полный контроль качества от начала до конца.</p>
+            <p>Есть готовые комплекты под популярные модели — берёте сразу. Или изготовим на заказ: сота, рубик, бриллиант, любой цвет бортика и окантовки.</p>
+        </div>
+        <div class="features fi d3">
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Точный крой под модель</strong> — не едут и не мешают педалям</div></div>
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Экологичный EVA</strong> — без запаха, моется за секунды</div></div>
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Антискользящее дно</strong> — безопасность в приоритете</div></div>
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>На заказ от 1 часа</strong> — быстро и без очередей</div></div>
+        </div>
+        <a href="https://wa.me/79288735764" target="_blank" rel="noopener noreferrer" class="btn-primary fi d4 btn-desk">Выбрать полики</a>
+    </div>
+    <div class="split-media fi d2">
+        <video muted loop playsinline preload="none" class="scroll-video">
+            <source src="images/изготовление поликов.mp4" type="video/mp4">
+        </video>
+    </div>
+    <a href="https://wa.me/79288735764" target="_blank" rel="noopener noreferrer" class="btn-primary btn-mob fi">Выбрать полики</a>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ DETAILING ═══════════════════════════════════════════════ -->
+<div id="detailing">
+    <div>
+        <div class="tag fi">Детейлинг салона</div>
+        <h2 class="sec-title fi d1"><span style="text-transform:uppercase;letter-spacing:.04em;">Салон</span><br>как <em>новый</em></h2>
+        <div class="sec-body fi d2">
+            <p>Комплексный детейлинг — это не просто уборка. Глубокая чистка, защита материалов и полное обновление салона.</p>
+        </div>
+        <a href="https://wa.me/79288735764" target="_blank" rel="noopener noreferrer" class="btn-primary fi d3 btn-desk">Записаться</a>
+    </div>
+    <div class="detail-video fi d2">
+        <video id="detailVid" muted playsinline preload="none">
+            <source src="images/последний блок сжато.mp4" type="video/mp4">
+        </video>
+        <div id="detailFade"></div>
+    </div>
+    <div class="detail-card fi d3">
+        <div class="detail-card-tag">Что входит в услугу</div>
+        <div class="detail-card-title">Полный детейлинг салона</div>
+        <div class="features">
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Чистка потолка, обшивок и панелей</strong></div></div>
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Глубокая химчистка сидений</strong></div></div>
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Уход за кожей и пластиком</strong></div></div>
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Обработка стёкол и зеркал</strong></div></div>
+            <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Устранение запахов</strong></div></div>
+        </div>
+        <div class="guarantee">
+            <p><strong>Гарантия качества</strong> — если результат не устроил, исправим бесплатно</p>
+        </div>
+    </div>
+    <a href="https://wa.me/79288735764" target="_blank" rel="noopener noreferrer" class="btn-primary btn-mob fi">Записаться</a>
+</div>
+
+<div class="divider"></div>
+
+<!-- ══ CONTACTS ════════════════════════════════════════════════ -->
+<div id="contacts">
+    <div class="contacts-head">
+        <div class="tag fi">Контакты</div>
+        <h2 class="sec-title fi d1" style="text-align:center;text-transform:uppercase;letter-spacing:.04em;">Свяжитесь с нами</h2>
+        <p class="sec-body fi d2" style="text-align:center; max-width:100%;">Запишитесь на консультацию или задайте вопрос — ответим быстро.</p>
+    </div>
+
+    <div class="phones-grid">
+        <div class="phone-card fi d1">
+            <div class="phone-label">Мухтар</div>
+            <a href="tel:+79894692075" class="phone-num">+7 (989) 469-20-75</a>
+            <div class="phone-name">Руководитель студии</div>
+        </div>
+        <div class="phone-card fi d2">
+            <div class="phone-label">Мухаммад</div>
+            <a href="tel:+79887888701" class="phone-num">+7 (988) 788-87-01</a>
+            <div class="phone-name">Мастер студии</div>
+        </div>
+        <div class="phone-card fi d3">
+            <div class="phone-label">Курух — WhatsApp</div>
+            <a href="https://wa.me/79288735764" target="_blank" rel="noopener noreferrer" class="phone-num">+7 (928) 873-57-64</a>
+            <div class="phone-name">Пишите сюда в WhatsApp</div>
+        </div>
+    </div>
+
+    <div class="address-row fi">
+        <div class="address-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="address-text">
+            <strong>г. Махачкала, п. Семендер, ул. Кирова, 56</strong><br>
+            Работаем ежедневно — звоните или пишите для записи
+        </div>
+    </div>
+
+    <div class="socials fi">
+        <a href="https://instagram.com/muhtar_ruli" target="_blank" rel="noopener noreferrer" class="social-btn ig">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            Instagram — @muhtar_ruli
+        </a>
+        <a href="https://t.me/muhtar_rulii" target="_blank" rel="noopener noreferrer" class="social-btn tg">
+            <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+            Telegram — @muhtar_rulii
+        </a>
+        <a href="https://wa.me/79288735764" target="_blank" rel="noopener noreferrer" class="social-btn wa" id="waContactBtn">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp — написать сейчас
+        </a>
+    </div>
+</div>
+
+<!-- ══ MAP ══════════════════════════════════════════════════════ -->
+<div id="map" class="fi">
+    <iframe
+        src="https://yandex.ru/map-widget/v1/?text=%D0%9C%D0%B0%D1%85%D0%B0%D1%87%D0%BA%D0%B0%D0%BB%D0%B0%2C+%D0%A1%D0%B5%D0%BC%D0%B5%D0%BD%D0%B4%D0%B5%D1%80%2C+%D1%83%D0%BB.+%D0%9A%D0%B8%D1%80%D0%BE%D0%B2%D0%B0+56&z=16&l=map"
+        allowfullscreen=""
+        loading="lazy">
+    </iframe>
+    <div class="map-card fi">
+        <div class="map-card-title">Как нас найти</div>
+        <div class="map-card-addr">
+            г. Махачкала<br>
+            п. Семендер<br>
+            ул. Кирова, 56
+        </div>
+        <a href="https://yandex.ru/maps/?text=%D0%9C%D0%B0%D1%85%D0%B0%D1%87%D0%BA%D0%B0%D0%BB%D0%B0+%D0%A1%D0%B5%D0%BC%D0%B5%D0%BD%D0%B4%D0%B5%D1%80+%D1%83%D0%BB+%D0%9A%D0%B8%D1%80%D0%BE%D0%B2%D0%B0+56" target="_blank" rel="noopener noreferrer" class="map-link">
+            Открыть на карте →
+        </a>
+    </div>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════ -->
+<footer class="fi">
+    <div class="footer-logo" id="footerLogo">MUKHTAR <em>RULI</em></div>
+    <div class="footer-copy">
+        <span>© 2026 Mukhtar Ruli · Премиум автостудия в Махачкале</span>
+        <span>Все права защищены</span>
+    </div>
+    <div class="footer-legal">
+        <a href="terms.html">Пользовательское соглашение</a>
+        <a href="privacy.html">Политика конфиденциальности</a>
+    </div>
+    <a href="https://wa.me/79886444986" target="_blank" rel="noopener noreferrer" class="footer-dev">Разработал Цахаев Мурад</a>
+</footer>
+
+<!-- ══ WHATSAPP FLOAT ════════════════════════════════════════════ -->
+<a href="https://wa.me/79288735764" target="_blank" rel="noopener noreferrer" class="wa-float" title="Написать в WhatsApp" aria-label="Написать в WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+    // Hero ping-pong
+    (function () {
+        const fwd = document.getElementById('heroFwd');
+        const rev = document.getElementById('heroRev');
+        const cvs = document.getElementById('heroCanvas');
+        const ctx = cvs.getContext('2d', { alpha: false });
+        let active = fwd;
+        let heroVisible = false;
+        let pauseTimer = null;
+
+        function setSize(v) {
+            if (v.videoWidth && (cvs.width !== v.videoWidth || cvs.height !== v.videoHeight)) {
+                cvs.width = v.videoWidth;
+                cvs.height = v.videoHeight;
+            }
+        }
+
+        let rafId;
+        function paint() {
+            if (heroVisible && cvs.width > 0 && active.readyState >= 2) {
+                ctx.drawImage(active, 0, 0, cvs.width, cvs.height);
+            }
+            if (heroVisible) rafId = requestAnimationFrame(paint);
+        }
+
+        function switchTo(v, callback) {
+            v.currentTime = 0;
+            if (v.readyState >= 2) {
+                callback();
+            } else {
+                v.addEventListener('canplay', function once() {
+                    v.removeEventListener('canplay', once);
+                    callback();
+                });
+            }
+        }
+
+        function syncGlare() {
+            const els = [
+                document.querySelector('.hero-line1'),
+                document.querySelector('.hero-title .red')
+            ];
+            els.forEach(el => {
+                if (!el) return;
+                el.style.animationName = 'none';
+                el.offsetHeight;
+                el.style.animationName = '';
+            });
+        }
+
+        function startFromBeginning() {
+            clearTimeout(pauseTimer);
+            fwd.pause();
+            rev.pause();
+            active = fwd;
+            switchTo(fwd, () => { syncGlare(); fwd.play().catch(() => {}); });
+        }
+
+        fwd.addEventListener('ended', () => {
+            if (!heroVisible) return;
+            rev.load(); // начинаем грузить только сейчас — пока идёт пауза 1.5с
+            pauseTimer = setTimeout(() => {
+                if (!heroVisible) return;
+                switchTo(rev, () => {
+                    active = rev;
+                    rev.play().catch(() => {});
+                });
+            }, 1500);
+        });
+
+        rev.addEventListener('ended', () => {
+            if (!heroVisible) return;
+            switchTo(fwd, () => {
+                active = fwd;
+                syncGlare();
+                fwd.play().catch(() => {});
+            });
+        });
+
+        fwd.addEventListener('loadedmetadata', () => setSize(fwd));
+        rev.addEventListener('loadedmetadata', () => setSize(rev));
+
+        fwd.addEventListener('canplaythrough', () => {
+            setSize(fwd);
+            if (heroVisible) { syncGlare(); fwd.play().catch(() => {}); }
+        });
+
+        // Start/stop based on visibility
+        new IntersectionObserver((entries) => {
+            heroVisible = entries[0].isIntersecting;
+            if (heroVisible) {
+                startFromBeginning();
+                if (!rafId) rafId = requestAnimationFrame(paint);
+            } else {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+                clearTimeout(pauseTimer);
+                fwd.pause();
+                rev.pause();
+            }
+        }, { threshold: 0.2 }).observe(document.getElementById('hero'));
+
+        if (window.innerWidth <= 768) {
+            fwd.querySelector('source').src = 'images/новый блок м.mp4';
+            rev.querySelector('source').src = 'images/новый блок reversed м.mp4';
+        }
+        fwd.load();
+        // rev загружается только когда fwd заканчивается первый раз
+    }());
+
+    // Sticky header
+    const header = document.getElementById('header');
+    const headerLogo = header.querySelector('.logo');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
+
+    // Hide header logo when footer logo is visible
+    const footerLogoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            headerLogo.style.opacity = e.isIntersecting ? '0' : '';
+        });
+    }, { threshold: 0.1 });
+    footerLogoObserver.observe(document.getElementById('footerLogo'));
+
+    // Fade-in on scroll
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('v');
+                io.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fi').forEach(el => io.observe(el));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const href = a.getAttribute('href');
+            if (!href || href === '#') return;
+            const target = document.querySelector(href);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // Play split videos only when visible
+    const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            const v = e.target;
+            if (e.isIntersecting) {
+                v.currentTime = 0;
+                v.play().catch(() => {});
+            } else {
+                v.pause();
+                v.currentTime = 0;
+            }
+        });
+    }, { threshold: 0.25 });
+    const mobileScrollSources = {
+        'images/анимация руля.mp4':        'images/анимация руля (1).mp4',
+        'images/изготовление поликов.mp4': 'images/изготовление поликов (1).mp4'
+    };
+    document.querySelectorAll('.scroll-video').forEach(v => {
+        if (window.innerWidth <= 768) {
+            const src = v.querySelector('source');
+            if (src && mobileScrollSources[src.getAttribute('src')]) {
+                src.setAttribute('src', mobileScrollSources[src.getAttribute('src')]);
+                v.load();
+            }
+        }
+        videoObserver.observe(v);
+    });
+
+    // Card hover videos
+    document.querySelectorAll('.card').forEach(card => {
+        if (card.classList.contains('d3')) return; // d3 handled separately
+        const vid = card.querySelector('.card-vid');
+        if (!vid || !vid.querySelector('source[src]')) return;
+        let _t;
+        card.addEventListener('mouseenter', () => {
+            if (window.innerWidth < 1200) return;
+            vid.currentTime = 0;
+            _t = setTimeout(() => vid.play().catch(() => {}), 200);
+        });
+        card.addEventListener('mouseleave', () => {
+            clearTimeout(_t);
+            vid.pause();
+            vid.currentTime = 0;
+        });
+    });
+
+    // Card d3 ping-pong
+    (function () {
+        const card = document.querySelector('.card.d3');
+        if (!card) return;
+
+        // No hover on touch devices or narrow screens — skip entirely
+        if (window.matchMedia('(hover: none)').matches) return;
+        if (window.innerWidth < 1200) return;
+
+        const fwd = card.querySelector('.card-d3-fwd');
+        const rev = card.querySelector('.card-d3-rev');
+        let active = false, phase = 'idle', _t;
+
+        // Img snapshot to freeze the last visible frame during fade-out
+        // Uses same object-fit/object-position as the videos so browser shows identical crop
+        const snapImg = document.createElement('img');
+        snapImg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:0% 30%;opacity:0;pointer-events:none;z-index:2;';
+        card.appendChild(snapImg);
+        const _snapCanvas = document.createElement('canvas');
+
+        // Seconds to skip at fwd start (close-up frames) — both directions show same wide framing
+        const WIDE_T = 1.0;
+
+        function instant(show, hide) {
+            hide.style.transition = 'none';
+            hide.style.opacity = '0';
+            hide.style.filter = 'blur(0)';
+            hide.style.transform = 'scale(1)';
+            show.style.transition = 'none';
+            show.style.opacity = '1';
+            show.style.filter = 'blur(0)';   // critical: clears blur left by reset()
+            show.style.transform = 'scale(1)'; // critical: clears scale left by reset()
+        }
+
+        function entryShow(el) {
+            el.style.transition = 'none';
+            el.style.opacity = '0';
+            el.style.filter = 'blur(6px)';
+            el.style.transform = 'scale(1.04)';
+            el.offsetHeight;
+            el.style.transition = 'opacity .4s ease, transform .4s ease, filter .55s ease';
+            el.style.opacity = '1';
+            el.style.filter = 'blur(0)';
+            el.style.transform = 'scale(1)';
+        }
+
+        function captureSnap() {
+            const visVid = parseFloat(window.getComputedStyle(fwd).opacity) > 0.5 ? fwd
+                         : parseFloat(window.getComputedStyle(rev).opacity) > 0.5 ? rev : null;
+            if (!visVid || !visVid.videoWidth) return false;
+            // Draw video at natural resolution to temp canvas, convert to data URL
+            _snapCanvas.width = visVid.videoWidth;
+            _snapCanvas.height = visVid.videoHeight;
+            _snapCanvas.getContext('2d').drawImage(visVid, 0, 0);
+            try {
+                snapImg.src = _snapCanvas.toDataURL('image/jpeg', 0.9);
+            } catch(e) { return false; }
+            // Apply same transform the video has so the freeze looks identical
+            const t = window.getComputedStyle(visVid).transform;
+            snapImg.style.transform = (t && t !== 'none') ? t : '';
+            return true;
+        }
+
+        function reset() {
+            phase = 'idle';
+            const captured = captureSnap();
+            // Instantly hide live videos and pause
+            [fwd, rev].forEach(v => { v.style.transition = 'none'; v.style.opacity = '0'; });
+            fwd.pause(); rev.pause();
+            if (captured) {
+                // Show frozen img snapshot, then fade it out
+                snapImg.style.transition = 'none';
+                snapImg.style.opacity = '1';
+                snapImg.offsetHeight; // force reflow
+                snapImg.style.transition = 'opacity .35s ease';
+                snapImg.style.opacity = '0';
+            }
+            _resetTimer = setTimeout(() => {
+                _resetTimer = null;
+                snapImg.style.transition = 'none';
+                snapImg.style.opacity = '0';
+                fwd.currentTime = WIDE_T; rev.currentTime = 0;
+                [fwd, rev].forEach(v => {
+                    v.style.transition = 'none';
+                    v.style.filter = 'blur(6px)';
+                    v.style.transform = 'scale(1.04)';
+                });
+            }, 400);
+        }
+
+        // Pre-seek rev to its wide start just before fwd ends
+        fwd.addEventListener('timeupdate', () => {
+            if (phase === 'fwd' && fwd.duration && fwd.currentTime >= fwd.duration - 0.2)
+                rev.currentTime = 0;
+        });
+
+        // Stop rev early so it never reaches the close-up tail (duration - WIDE_T)
+        rev.addEventListener('timeupdate', () => {
+            if (phase !== 'rev' || !rev.duration) return;
+            if (rev.currentTime >= rev.duration - WIDE_T - 0.15) {
+                phase = 'fwd'; // guard against re-entry before pause takes effect
+                rev.pause();
+                fwd.currentTime = WIDE_T;
+                // wait for seek to finish before showing fwd — prevents wrong-frame flash
+                const show = () => {
+                    if (!active) return;
+                    instant(fwd, rev);
+                    fwd.play().catch(() => {});
+                };
+                fwd.seeking ? fwd.addEventListener('seeked', show, { once: true }) : show();
+            }
+        });
+
+        fwd.addEventListener('ended', () => {
+            if (!active) return;
+            phase = 'rev';
+            instant(rev, fwd);
+            rev.play().catch(() => {});
+        });
+
+        // Fallback: rev.ended fires only if timeupdate missed the cutoff
+        rev.addEventListener('ended', () => {
+            if (!active) return;
+            fwd.currentTime = WIDE_T;
+            phase = 'fwd';
+            instant(fwd, rev);
+            fwd.play().catch(() => {});
+        });
+
+        let _playTimer = null;
+        let _resetTimer = null;
+
+        card.addEventListener('mouseenter', () => {
+            active = true;
+            if (_resetTimer) { clearTimeout(_resetTimer); _resetTimer = null; }
+            snapImg.style.transition = 'none'; snapImg.style.opacity = '0';
+            if (fwd.readyState === 0) fwd.load(); // load once on first hover, browser cache handles the rest
+            // 80ms intent delay: prevents flash on quick cursor pass or touch-scroll
+            _t = setTimeout(() => {
+                if (!active) return;
+                rev.load();
+                rev.currentTime = 0;
+                rev.style.opacity = '0';
+                phase = 'fwd';
+                const doShow = () => {
+                    if (!active) return;
+                    entryShow(fwd);
+                    _playTimer = setTimeout(() => {
+                        if (active) fwd.play().catch(() => {});
+                    }, 200);
+                };
+                fwd.currentTime = WIDE_T;
+                // Wait for frame to decode before showing — prevents black screen on first hover
+                if (fwd.readyState >= 2) {
+                    doShow();
+                } else {
+                    fwd.addEventListener('seeked', doShow, { once: true });
+                }
+            }, 80);
+        });
+        card.addEventListener('mouseleave', () => {
+            active = false;
+            clearTimeout(_t);
+            clearTimeout(_playTimer); // stops play even if intent fired but play hasn't
+            if (phase !== 'idle') reset();
+        });
+    }());
+
+    // Detailing video fade-to-black loop
+    (function () {
+        const vid = document.getElementById('detailVid');
+        const fade = document.getElementById('detailFade');
+        if (!vid || !fade) return;
+        if (window.innerWidth < 1200) return;
+
+        const FADE_BEFORE = 0.7;
+        let playing = false;
+
+        vid.addEventListener('timeupdate', () => {
+            if (vid.duration && vid.currentTime >= vid.duration - FADE_BEFORE) {
+                fade.style.opacity = '0.9';
+            }
+        });
+
+        vid.addEventListener('ended', () => {
+            vid.currentTime = 0;
+            if (playing) vid.play().catch(() => {});
+            setTimeout(() => { fade.style.opacity = '0'; }, 80);
+        });
+
+        new IntersectionObserver((entries) => {
+            playing = entries[0].isIntersecting;
+            if (playing) {
+                if (vid.readyState === 0) vid.load();
+                vid.play().catch(() => {});
+            } else {
+                vid.pause();
+            }
+        }, { threshold: 0.25 }).observe(vid.closest('section') || vid);
+    }());
+
+    // Hide WA float when WA contact button is visible
+    const waFloat = document.querySelector('.wa-float');
+    new IntersectionObserver((entries) => {
+        waFloat.classList.toggle('hidden', entries[0].isIntersecting);
+    }, { threshold: 0.1 }).observe(document.getElementById('waContactBtn'));
+
+    // Burger menu
+    const burger = document.getElementById('burger');
+    const mobMenu = document.getElementById('mobMenu');
+    function closeMobMenu() {
+        burger.classList.remove('open');
+        mobMenu.classList.remove('visible');
+        setTimeout(() => { mobMenu.classList.remove('open'); }, 300);
+        document.body.style.overflow = '';
+    }
+    burger.addEventListener('click', () => {
+        const isOpen = burger.classList.contains('open');
+        if (isOpen) {
+            closeMobMenu();
+        } else {
+            burger.classList.add('open');
+            mobMenu.classList.add('open');
+            requestAnimationFrame(() => mobMenu.classList.add('visible'));
+            document.body.style.overflow = 'hidden';
+        }
+    });
+    mobMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', closeMobMenu);
+    });
+    mobMenu.addEventListener('click', e => {
+        if (e.target === mobMenu) closeMobMenu();
+    });
+</script>
+</body>
+</html>

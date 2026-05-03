@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Страница не найдена · Mukhtar Ruli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #080808; --s1: #111111; --border: #222222;
+            --red: #c8102e; --text: #f0ede8; --text2: #999999; --text3: #484848;
+        }
+        html, body { height: 100%; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: 'Inter', 'Helvetica Neue', sans-serif;
+            font-weight: 300; line-height: 1.6;
+            display: flex; flex-direction: column;
+        }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--red); }
+
+        header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 28px 64px;
+            border-bottom: 1px solid var(--border);
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; letter-spacing: .06em; color: var(--text); text-decoration: none; }
+        .logo em { color: var(--red); font-style: normal; }
+
+        main {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            padding: 60px 64px;
+            position: relative; overflow: hidden;
+        }
+
+        .bg-num {
+            position: absolute;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(240px, 35vw, 480px);
+            font-weight: 900;
+            color: rgba(200,16,46,.04);
+            line-height: 1;
+            user-select: none;
+            pointer-events: none;
+            letter-spacing: -.04em;
+        }
+
+        .content {
+            text-align: center;
+            position: relative; z-index: 1;
+            max-width: 560px;
+        }
+
+        .tag {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+            color: var(--red); margin-bottom: 28px;
+        }
+        .tag::before, .tag::after { content: ''; width: 20px; height: 1px; background: var(--red); }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(48px, 7vw, 96px);
+            font-weight: 900; line-height: .95;
+            letter-spacing: -.03em; margin-bottom: 12px;
+        }
+        h1 em { color: var(--red); font-style: italic; }
+
+        .subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(16px, 2vw, 22px);
+            font-style: italic; color: var(--text2);
+            margin-bottom: 40px;
+        }
+
+        p {
+            font-size: 15px; color: var(--text2);
+            line-height: 1.75; margin-bottom: 48px;
+        }
+
+        .btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--red); color: var(--text);
+            text-decoration: none; padding: 15px 38px;
+            font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+            transition: background .25s, transform .25s;
+        }
+        .btn-primary:hover { background: #df1430; transform: translateY(-2px); }
+
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: 10px;
+            border: 1px solid rgba(240,237,232,.2); color: var(--text2);
+            text-decoration: none; padding: 15px 38px;
+            font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+            transition: all .25s;
+        }
+        .btn-ghost:hover { border-color: rgba(240,237,232,.45); color: var(--text); }
+
+        footer {
+            background: var(--bg); border-top: 1px solid var(--border);
+            padding: 28px 64px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+        .footer-logo em { color: var(--red); font-style: normal; }
+        .footer-copy { font-size: 12px; color: var(--text3); }
+        .footer-legal { display: flex; gap: 20px; }
+        .footer-legal a { font-size: 11px; color: var(--text3); text-decoration: none; transition: color .2s; }
+        .footer-legal a:hover { color: var(--text2); }
+
+        @media (max-width: 768px) {
+            header { padding: 20px 24px; }
+            main { padding: 48px 24px; }
+            footer { flex-direction: column; gap: 10px; padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo">MUKHTAR <em>RULI</em></a>
+</header>
+
+<main>
+    <div class="bg-num">404</div>
+    <div class="content">
+        <div class="tag">Ошибка</div>
+        <h1>СТРАНИЦА<br>НЕ <em>НАЙДЕНА</em></h1>
+        <p class="subtitle">Что-то пошло не так</p>
+        <p>Страница, которую вы ищете, не существует или была перемещена.<br>Вернитесь на главную — там всё на месте.</p>
+        <div class="btns">
+            <a href="index.html" class="btn-primary">На главную</a>
+            <a href="https://wa.me/79288735764" target="_blank" class="btn-ghost">Написать нам</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-logo">MUKHTAR <em>RULI</em></div>
+    <div class="footer-copy">© 2026 Mukhtar Ruli · Премиум автостудия в Махачкале</div>
+    <div class="footer-legal">
+        <a href="terms.html">Пользовательское соглашение</a>
+        <a href="privacy.html">Политика конфиденциальности</a>
+    </div>
+</footer>
+
+</body>
+</html>
