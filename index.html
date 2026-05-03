@@ -1350,10 +1350,12 @@
                 if (op > 0.02) {
                     const tf = cs.transform;
                     const fl = cs.filter;
-                    v.style.transition = 'none';
+                    // Commit mid-animation values as inline styles BEFORE transition:none —
+                    // otherwise transition:none snaps to the final value (1) causing a flash
                     v.style.opacity = String(op);
                     v.style.transform = (tf && tf !== 'none') ? tf : 'scale(1)';
                     v.style.filter = (fl && fl !== 'none') ? fl : 'blur(0)';
+                    v.style.transition = 'none';
                     v.offsetHeight;
                     v.style.transition = 'opacity .35s ease';
                     v.style.opacity = '0';
@@ -1364,13 +1366,14 @@
             });
             _resetTimer = setTimeout(() => {
                 _resetTimer = null;
+                // Ensure truly invisible before seeking (seek on visible video = frame flash)
+                [fwd, rev].forEach(v => { v.style.transition = 'none'; v.style.opacity = '0'; });
                 fwd.currentTime = WIDE_T; rev.currentTime = 0;
                 [fwd, rev].forEach(v => {
-                    v.style.transition = 'none';
                     v.style.filter = 'blur(6px)';
                     v.style.transform = 'scale(1.04)';
                 });
-            }, 400);
+            }, 450);
         }
 
         // Pre-seek rev to its wide start just before fwd ends
