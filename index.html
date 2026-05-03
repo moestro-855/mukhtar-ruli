@@ -1313,13 +1313,6 @@
         const rev = card.querySelector('.card-d3-rev');
         let active = false, phase = 'idle', _t;
 
-        // Img snapshot to freeze the last visible frame during fade-out
-        // Uses same object-fit/object-position as the videos so browser shows identical crop
-        const snapImg = document.createElement('img');
-        snapImg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:0% 30%;opacity:0;pointer-events:none;z-index:2;';
-        card.appendChild(snapImg);
-        const _snapCanvas = document.createElement('canvas');
-
         // Seconds to skip at fwd start (close-up frames) — both directions show same wide framing
         const WIDE_T = 1.0;
 
@@ -1330,8 +1323,8 @@
             hide.style.transform = 'scale(1)';
             show.style.transition = 'none';
             show.style.opacity = '1';
-            show.style.filter = 'blur(0)';   // critical: clears blur left by reset()
-            show.style.transform = 'scale(1)'; // critical: clears scale left by reset()
+            show.style.filter = 'blur(0)';
+            show.style.transform = 'scale(1)';
         }
 
         function entryShow(el) {
@@ -1346,41 +1339,31 @@
             el.style.transform = 'scale(1)';
         }
 
-        function captureSnap() {
-            const visVid = (fwd.style.opacity === '1' && fwd.readyState >= 2) ? fwd
-                         : (rev.style.opacity === '1' && rev.readyState >= 2) ? rev : null;
-            if (!visVid || !visVid.videoWidth) return false;
-            // Draw video at natural resolution to temp canvas, convert to data URL
-            _snapCanvas.width = visVid.videoWidth;
-            _snapCanvas.height = visVid.videoHeight;
-            _snapCanvas.getContext('2d').drawImage(visVid, 0, 0);
-            try {
-                snapImg.src = _snapCanvas.toDataURL('image/jpeg', 0.9);
-            } catch(e) { return false; }
-            // Apply same transform the video has so the freeze looks identical
-            const t = window.getComputedStyle(visVid).transform;
-            snapImg.style.transform = (t && t !== 'none') ? t : '';
-            return true;
-        }
-
         function reset() {
             phase = 'idle';
-            const captured = captureSnap();
-            // Instantly hide live videos and pause
-            [fwd, rev].forEach(v => { v.style.transition = 'none'; v.style.opacity = '0'; });
             fwd.pause(); rev.pause();
-            if (captured) {
-                // Show frozen img snapshot, then fade it out
-                snapImg.style.transition = 'none';
-                snapImg.style.opacity = '1';
-                snapImg.offsetHeight; // force reflow
-                snapImg.style.transition = 'opacity .35s ease';
-                snapImg.style.opacity = '0';
-            }
+            // Freeze each video at its current computed state, then fade opacity out smoothly.
+            // No canvas needed — avoids CORS restrictions on hosted environments.
+            [fwd, rev].forEach(v => {
+                const cs = window.getComputedStyle(v);
+                const op = parseFloat(cs.opacity);
+                if (op > 0.02) {
+                    const tf = cs.transform;
+                    const fl = cs.filter;
+                    v.style.transition = 'none';
+                    v.style.opacity = String(op);
+                    v.style.transform = (tf && tf !== 'none') ? tf : 'scale(1)';
+                    v.style.filter = (fl && fl !== 'none') ? fl : 'blur(0)';
+                    v.offsetHeight;
+                    v.style.transition = 'opacity .35s ease';
+                    v.style.opacity = '0';
+                } else {
+                    v.style.transition = 'none';
+                    v.style.opacity = '0';
+                }
+            });
             _resetTimer = setTimeout(() => {
                 _resetTimer = null;
-                snapImg.style.transition = 'none';
-                snapImg.style.opacity = '0';
                 fwd.currentTime = WIDE_T; rev.currentTime = 0;
                 [fwd, rev].forEach(v => {
                     v.style.transition = 'none';
@@ -1435,7 +1418,6 @@
         card.addEventListener('mouseenter', () => {
             active = true;
             if (_resetTimer) { clearTimeout(_resetTimer); _resetTimer = null; }
-            snapImg.style.transition = 'none'; snapImg.style.opacity = '0';
             if (fwd.readyState === 0) fwd.load(); // load once on first hover, browser cache handles the rest
             // 80ms intent delay: prevents flash on quick cursor pass or touch-scroll
             _t = setTimeout(() => {
