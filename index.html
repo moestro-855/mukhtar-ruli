@@ -1084,17 +1084,22 @@
 
 <script>
     // Centralized autoplay retry (Telegram WebView / iOS restrictions)
-    const _pending = new Set();
+    const _wantPlay = new Set(); // videos that SHOULD be playing right now
     function _tryPlay(v) {
+        _wantPlay.add(v);
         const p = v.play();
-        if (p && typeof p.catch === 'function') p.catch(() => _pending.add(v));
+        if (p && typeof p.then === 'function') {
+            p.then(() => {
+                // play() resolved but some WebViews keep video paused — check after 400ms
+                setTimeout(() => { if (v.paused && _wantPlay.has(v)) v.play().catch(() => {}); }, 400);
+            }).catch(() => {});
+        }
+    }
+    function _retryAll() {
+        _wantPlay.forEach(v => { if (v.paused) v.play().catch(() => {}); });
     }
     ['touchstart', 'touchend', 'click'].forEach(ev =>
-        document.addEventListener(ev, () => {
-            if (!_pending.size) return;
-            _pending.forEach(v => v.play().catch(() => {}));
-            _pending.clear();
-        }, { passive: true })
+        document.addEventListener(ev, _retryAll, { passive: true })
     );
 
     // Hero ping-pong
@@ -1286,6 +1291,7 @@
                 v.removeAttribute('autoplay');
                 v.pause();
                 v.currentTime = 0;
+                _wantPlay.delete(v);
             }
         });
     }, { threshold: 0.25 });
@@ -1496,6 +1502,7 @@
             } else {
                 vid.removeAttribute('autoplay');
                 vid.pause();
+                _wantPlay.delete(vid);
             }
         }, { threshold: 0.25 }).observe(vid.closest('section') || vid);
     }());
