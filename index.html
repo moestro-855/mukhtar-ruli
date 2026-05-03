@@ -315,9 +315,7 @@
         .card.d2 .card-vid { transform: scale(1.08); }
         .card.d2:hover .card-vid { transform: scale(1); filter: blur(0); transition: opacity .4s ease, transform .45s cubic-bezier(0.22, 1, 0.36, 1), filter .55s ease; }
         .card.d3 .card-vid,
-        .card.d3:hover .card-vid { opacity: 0; transform: scale(1); filter: blur(0); object-fit: cover; object-position: center 30%; transition: opacity .2s ease; }
-        .card.d3 .card-d3-fwd,
-        .card.d3 .card-d3-rev { object-position: 0% 30%; }
+        .card.d3:hover .card-vid { opacity: 0; transform: scale(1); filter: blur(0); object-fit: cover; object-position: center center; transition: opacity .2s ease; }
         .card.d3 .card-d3-rev { transition: opacity .2s ease; }
         .card-icon, .card-title, .card-txt { transition: opacity .35s ease; }
         .card:hover .card-icon,
@@ -716,8 +714,6 @@
             .card { padding: 52px 32px; }
             .card-title { font-size: 26px; }
             .card-overlay-txt strong { font-size: clamp(18px, 4.5vw, 22px); }
-            .card.d3 .card-d3-fwd,
-            .card.d3 .card-d3-rev { object-position: 75% 25% !important; }
             #detailing { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
             .detail-card { padding: 36px 28px; }
             .detail-card-title { font-size: 22px; }
@@ -912,10 +908,10 @@
         </div>
         <div class="card fi d3">
             <video class="card-vid card-d3-fwd" muted playsinline preload="none">
-                <source src="images/блок чехлы 3 анимация сжато.mp4" type="video/mp4">
+                <source src="images/материалы.mp4" type="video/mp4">
             </video>
             <video class="card-vid card-d3-rev" muted playsinline preload="none" style="opacity:0;transition:opacity .15s ease;">
-                <source src="images/блок чехлы 3 анимация reversed.mp4" type="video/mp4">
+                <source src="images/материалы reversed.mp4" type="video/mp4">
             </video>
             <div class="card-overlay-txt">
                 <strong>Премиум<br>качество</strong>
@@ -1313,8 +1309,7 @@
         const rev = card.querySelector('.card-d3-rev');
         let active = false, phase = 'idle', _t;
 
-        // Seconds to skip at fwd start (close-up frames) — both directions show same wide framing
-        const WIDE_T = 1.0;
+        const WIDE_T = 0;
 
         function instant(show, hide) {
             hide.style.transition = 'none';
