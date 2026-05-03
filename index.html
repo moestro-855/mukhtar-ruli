@@ -1336,47 +1336,19 @@
 
         function reset() {
             phase = 'idle';
-            fwd.pause(); rev.pause();
-            const cw = card.clientWidth, ch = card.clientHeight;
-            // After 2 rAFs the paused frame is rendered — capture it and overlay for a clean freeze-fade
-            requestAnimationFrame(() => requestAnimationFrame(() => {
-                if (active) return;
-                [fwd, rev].forEach(v => {
-                    const op = parseFloat(window.getComputedStyle(v).opacity);
-                    if (op <= 0.02) { v.style.transition = 'none'; v.style.opacity = '0'; return; }
-                    let froze = false;
-                    try {
-                        const vw = v.videoWidth, vh = v.videoHeight;
-                        if (vw > 0 && vh > 0) {
-                            const sf = Math.max(cw / vw, ch / vh);
-                            const srcW = cw / sf, srcH = ch / sf;
-                            const srcY = Math.max(0, 0.3 * (vh - srcH)); // object-position 30%
-                            const cvs = document.createElement('canvas');
-                            cvs.width = cw; cvs.height = ch;
-                            cvs.getContext('2d').drawImage(v, 0, srcY, srcW, srcH, 0, 0, cw, ch);
-                            const url = cvs.toDataURL('image/jpeg', 0.85);
-                            if (url && url.length > 500) {
-                                const ov = document.createElement('div');
-                                ov.className = 'freeze-ov';
-                                ov.style.cssText =
-                                    'position:absolute;top:0;left:0;width:100%;height:100%;' +
-                                    'background:url("' + url + '") no-repeat 0 0/100% 100%;' +
-                                    'opacity:' + op + ';pointer-events:none;z-index:1;transition:opacity .3s ease;';
-                                card.appendChild(ov);
-                                v.style.transition = 'none'; v.style.opacity = '0';
-                                ov.offsetHeight;
-                                ov.style.opacity = '0';
-                                setTimeout(() => { if (ov.parentNode) ov.remove(); }, 400);
-                                froze = true;
-                            }
-                        }
-                    } catch(e) {}
-                    if (!froze) { v.style.transition = 'opacity .3s ease'; v.style.opacity = '0'; }
-                });
-            }));
+            // Commit current rendered opacity as inline → stop any running transition →
+            // reflow → start fresh fade to 0. Works correctly even after instant() sets transition:none.
+            [fwd, rev].forEach(v => {
+                const op = parseFloat(window.getComputedStyle(v).opacity);
+                v.style.transition = 'none';
+                v.style.opacity = String(op);
+                v.offsetHeight; // flush so browser registers the committed value
+                v.style.transition = 'opacity .4s ease';
+                v.style.opacity = '0';
+            });
             _resetTimer = setTimeout(() => {
                 _resetTimer = null;
-                card.querySelectorAll('.freeze-ov').forEach(el => el.remove());
+                fwd.pause(); rev.pause();
                 [fwd, rev].forEach(v => { v.style.transition = 'none'; v.style.opacity = '0'; });
                 fwd.currentTime = WIDE_T; rev.currentTime = 0;
                 [fwd, rev].forEach(v => {
@@ -1431,7 +1403,6 @@
         card.addEventListener('mouseenter', () => {
             active = true;
             if (_resetTimer) { clearTimeout(_resetTimer); _resetTimer = null; }
-            card.querySelectorAll('.freeze-ov').forEach(el => el.remove());
             if (fwd.readyState === 0) fwd.load(); // load once on first hover, browser cache handles the rest
             // 80ms intent delay: prevents flash on quick cursor pass or touch-scroll
             _t = setTimeout(() => {
