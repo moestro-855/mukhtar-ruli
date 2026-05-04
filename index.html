@@ -1579,6 +1579,18 @@
     mobMenu.addEventListener('click', e => {
         if (e.target === mobMenu) closeMobMenu();
     });
+
+    // Yandex Metrika goals
+    document.querySelectorAll('a[href*="wa.me"]').forEach(a => {
+        a.addEventListener('click', () => {
+            if (typeof ym !== 'undefined') ym(109027926, 'reachGoal', 'whatsapp_click');
+        });
+    });
+    document.querySelectorAll('a[href^="tel:"]').forEach(a => {
+        a.addEventListener('click', () => {
+            if (typeof ym !== 'undefined') ym(109027926, 'reachGoal', 'phone_click');
+        });
+    });
 </script>
 </body>
 </html>
