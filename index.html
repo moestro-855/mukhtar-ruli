@@ -1503,6 +1503,13 @@
             setTimeout(() => { fade.style.opacity = '0'; }, 80);
         });
 
+        // Start buffering before section is visible
+        new IntersectionObserver((entries, obs) => {
+            if (!entries[0].isIntersecting) return;
+            obs.disconnect();
+            if (vid.readyState === 0) vid.load();
+        }, { rootMargin: '0px 0px 500px 0px', threshold: 0 }).observe(vid.closest('section') || vid);
+
         new IntersectionObserver((entries) => {
             playing = entries[0].isIntersecting;
             if (playing) {
