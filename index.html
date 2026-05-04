@@ -1549,37 +1549,70 @@
 
     // Steering wheel video — smooth loop crossfade
     (function () {
-        const vid = document.getElementById('rulVid');
-        if (!vid) return;
+        const vid1 = document.getElementById('rulVid');
+        if (!vid1) return;
 
-        const FADE_BEFORE = 0.4;
+        const parent = vid1.parentNode;
+        const vid2 = vid1.cloneNode(true);
+        vid2.removeAttribute('id');
+        vid2.classList.remove('scroll-video');
+        vid2.style.position = 'absolute';
+        vid2.style.top = '0';
+        vid2.style.left = '0';
+        vid2.style.width = '100%';
+        vid2.style.height = '100%';
+        vid2.style.opacity = '0';
+        vid2.style.pointerEvents = 'none';
+        
+        parent.appendChild(vid2);
+
+        const FADE_TIME = 0.8;
+        let active = vid1;
+        let next = vid2;
         let fading = false;
 
-        vid.addEventListener('timeupdate', () => {
-            if (!fading && vid.duration && vid.currentTime >= vid.duration - FADE_BEFORE) {
+        function onTimeUpdate(e) {
+            const v = e.target;
+            if (v !== active) return;
+            
+            if (!fading && v.duration && v.currentTime >= v.duration - FADE_TIME) {
                 fading = true;
-                vid.style.transition = 'opacity .35s ease';
-                vid.style.opacity = '0';
-            }
-        });
+                next.currentTime = 0;
+                next.play().catch(() => {});
+                
+                next.style.transition = `opacity ${FADE_TIME}s ease`;
+                v.style.transition = `opacity ${FADE_TIME}s ease`;
+                
+                next.style.opacity = '1';
+                v.style.opacity = '0';
+                
+                const temp = active;
+                active = next;
+                next = temp;
 
-        vid.addEventListener('ended', () => {
-            vid.currentTime = 0;
-            vid.play().catch(() => {});
-            setTimeout(() => {
-                fading = false;
-                vid.style.transition = 'opacity .35s ease';
-                vid.style.opacity = '1';
-            }, 80);
-        });
-
-        vid.addEventListener('play', () => {
-            if (vid.currentTime < 0.1) {
-                fading = false;
-                vid.style.transition = 'none';
-                vid.style.opacity = '1';
+                setTimeout(() => {
+                    fading = false;
+                    next.pause();
+                }, FADE_TIME * 1000);
             }
-        });
+        }
+
+        vid1.addEventListener('timeupdate', onTimeUpdate);
+        vid2.addEventListener('timeupdate', onTimeUpdate);
+
+        new IntersectionObserver((entries) => {
+            if (!entries[0].isIntersecting) {
+                vid2.pause();
+                active = vid1;
+                next = vid2;
+                fading = false;
+                vid1.style.transition = 'none';
+                vid2.style.transition = 'none';
+                vid1.style.opacity = '1';
+                vid2.style.opacity = '0';
+                vid2.currentTime = 0;
+            }
+        }, { threshold: 0.15 }).observe(vid1);
     }());
 
     // Hide WA float when WA contact button is visible
