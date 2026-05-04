@@ -882,7 +882,6 @@
         <video id="rulVid" muted playsinline webkit-playsinline preload="none" class="scroll-video">
             <source src="images/анимация руля.mp4" type="video/mp4">
         </video>
-        <div id="rulFade" style="position:absolute;inset:0;z-index:3;background:#080808;opacity:0;transition:opacity .7s ease;pointer-events:none;"></div>
     </div>
     <a href="https://wa.me/79887888701" target="_blank" rel="noopener noreferrer" class="btn-primary btn-mob fi">Записаться</a>
 </div>
@@ -1548,29 +1547,38 @@
         }, { threshold: 0.25 }).observe(vid.closest('section') || vid);
     }());
 
-    // Steering wheel video — smooth loop fade
+    // Steering wheel video — smooth loop crossfade
     (function () {
         const vid = document.getElementById('rulVid');
-        const fade = document.getElementById('rulFade');
-        if (!vid || !fade) return;
+        if (!vid) return;
 
-        const FADE_BEFORE = 0.6;
+        const FADE_BEFORE = 0.4;
+        let fading = false;
 
         vid.addEventListener('timeupdate', () => {
-            if (vid.duration && vid.currentTime >= vid.duration - FADE_BEFORE) {
-                fade.style.opacity = '1';
+            if (!fading && vid.duration && vid.currentTime >= vid.duration - FADE_BEFORE) {
+                fading = true;
+                vid.style.transition = 'opacity .35s ease';
+                vid.style.opacity = '0';
             }
         });
 
         vid.addEventListener('ended', () => {
             vid.currentTime = 0;
             vid.play().catch(() => {});
-            setTimeout(() => { fade.style.opacity = '0'; }, 100);
+            setTimeout(() => {
+                fading = false;
+                vid.style.transition = 'opacity .35s ease';
+                vid.style.opacity = '1';
+            }, 80);
         });
 
-        // Reset fade if video restarts from beginning (e.g. after out-of-viewport pause)
         vid.addEventListener('play', () => {
-            if (vid.currentTime < 0.3) fade.style.opacity = '0';
+            if (vid.currentTime < 0.1) {
+                fading = false;
+                vid.style.transition = 'none';
+                vid.style.opacity = '1';
+            }
         });
     }());
 
