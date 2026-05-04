@@ -1322,6 +1322,26 @@
         });
     });
 
+    // Preload card videos as section approaches viewport (desktop / hover-capable only)
+    if (!window.matchMedia('(hover: none)').matches && window.innerWidth >= 1200) {
+        const cardsGrid = document.querySelector('.cards-grid');
+        if (cardsGrid) {
+            new IntersectionObserver((entries, obs) => {
+                if (!entries[0].isIntersecting) return;
+                obs.disconnect();
+                [
+                    document.querySelector('.card.d1 .card-vid'),
+                    document.querySelector('.card.d2 .card-vid'),
+                    document.querySelector('.card.d3 .card-d3-fwd'),
+                    document.querySelector('.card.d3 .card-d3-rev'),
+                ].forEach((v, i) => {
+                    if (v && v.readyState === 0)
+                        setTimeout(() => v.load(), i * 200);
+                });
+            }, { rootMargin: '0px 0px 350px 0px', threshold: 0 }).observe(cardsGrid);
+        }
+    }
+
     // Card d3 ping-pong
     (function () {
         const card = document.querySelector('.card.d3');
@@ -1433,7 +1453,7 @@
             // 80ms intent delay: prevents flash on quick cursor pass or touch-scroll
             _t = setTimeout(() => {
                 if (!active) return;
-                rev.load();
+                if (rev.readyState === 0) rev.load();
                 rev.currentTime = 0;
                 rev.style.opacity = '0';
                 phase = 'fwd';
