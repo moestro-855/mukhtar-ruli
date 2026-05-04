@@ -311,7 +311,8 @@
             filter: blur(6px);
             transition: opacity .35s ease, transform .35s ease, filter .35s ease;
         }
-        .card:hover .card-vid { opacity: 1; transform: scale(1); filter: blur(0); transition: opacity .4s ease, transform .4s ease, filter .55s ease; }
+        .card:hover .card-vid { transform: scale(1); filter: blur(0); transition: opacity .4s ease, transform .4s ease, filter .55s ease; }
+        .card:hover .card-vid.vid-ready { opacity: 1; }
         .card.d2 .card-vid { transform: scale(1.08); }
         .card.d2:hover .card-vid { transform: scale(1); filter: blur(0); transition: opacity .4s ease, transform .45s cubic-bezier(0.22, 1, 0.36, 1), filter .55s ease; }
         .card.d3 .card-vid,
@@ -1297,14 +1298,25 @@
         if (card.classList.contains('d3')) return; // d3 handled separately
         const vid = card.querySelector('.card-vid');
         if (!vid || !vid.querySelector('source[src]')) return;
-        let _t;
+        let _hovering = false;
         card.addEventListener('mouseenter', () => {
             if (window.innerWidth < 1200) return;
+            _hovering = true;
             vid.currentTime = 0;
-            _t = setTimeout(() => vid.play().catch(() => {}), 200);
+            const doPlay = () => {
+                if (!_hovering) return;
+                vid.classList.add('vid-ready');
+                vid.play().catch(() => {});
+            };
+            if (vid.readyState >= 2) {
+                doPlay();
+            } else {
+                vid.load();
+                vid.addEventListener('canplay', doPlay, { once: true });
+            }
         });
         card.addEventListener('mouseleave', () => {
-            clearTimeout(_t);
+            _hovering = false;
             vid.pause();
             vid.currentTime = 0;
         });
