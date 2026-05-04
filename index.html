@@ -665,9 +665,10 @@
         /* ─── ANIMATIONS ──────────────────────────── */
         .fi {
             opacity: 0;
-            transition: opacity .7s ease;
+            transform: translateY(22px);
+            transition: opacity .8s cubic-bezier(0.22, 1, 0.36, 1), transform .8s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .fi.v { opacity: 1; }
+        .fi.v { opacity: 1; transform: translateY(0); }
         .fi:not(.v).d1 { transition-delay: .1s; }
         .fi:not(.v).d2 { transition-delay: .2s; }
         .fi:not(.v).d3 { transition-delay: .3s; }
@@ -1008,7 +1009,7 @@
         </div>
         <div class="phone-card fi d2">
             <div class="phone-label">Мухаммад · <span style="color:var(--text3);font-weight:400;">WhatsApp</span></div>
-            <a href="tel:+79887888701" class="phone-num">+7 (988) 788-87-01</a>
+            <a href="https://wa.me/79887888701" target="_blank" rel="noopener noreferrer" class="phone-num">+7 (988) 788-87-01</a>
             <div class="phone-name">Менеджер студии</div>
         </div>
         <div class="phone-card fi d3">
@@ -1290,6 +1291,12 @@
                 v.load();
             }
         }
+        // Preload before visible so video is ready when section enters viewport
+        new IntersectionObserver((entries, obs) => {
+            if (!entries[0].isIntersecting) return;
+            obs.disconnect();
+            if (v.readyState === 0) v.load();
+        }, { rootMargin: '0px 0px 400px 0px', threshold: 0 }).observe(v);
         videoObserver.observe(v);
     });
 
