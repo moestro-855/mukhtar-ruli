@@ -1107,24 +1107,6 @@
         const fwd = document.getElementById('heroFwd');
         const rev = document.getElementById('heroRev');
         const cvs = document.getElementById('heroCanvas');
-
-        // Mobile: show video element directly — iOS WebView blocks canvas.drawImage(video)
-        if (window.innerWidth <= 768) {
-            cvs.style.display = 'none';
-            fwd.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;' +
-                'object-fit:cover;object-position:58% center;opacity:0;pointer-events:none;transition:opacity 1.2s ease;';
-            fwd.setAttribute('loop', '');
-            fwd.querySelector('source').src = 'images/новый блок м.mp4';
-            const reveal = () => {
-                fwd.style.opacity = '1';
-                document.querySelector('#hero .hero-content').style.opacity = '1';
-            };
-            fwd.addEventListener('canplay', () => { reveal(); _tryPlay(fwd); }, { once: true });
-            setTimeout(reveal, 2500);
-            fwd.load();
-            return;
-        }
-
         const ctx = cvs.getContext('2d', { alpha: false });
         let active = fwd;
         let heroVisible = false;
