@@ -18,9 +18,14 @@
     <title>Авточехлы, полики, обтяжка рулей в Махачкале — Mukhtar Ruli</title>
     <meta name="description" content="Автостудия Mukhtar Ruli в Махачкале. Авточехлы на заказ, полики EVA, обтяжка рулей кожей и алькантарой, детейлинг салона. Семендер, ул. Кирова 56. Звоните: +7 (989) 469-20-75.">
     <meta name="theme-color" content="#080808">
+    <meta name="color-scheme" content="dark">
+    <!-- Instant paint: no white flash before main stylesheet -->
+    <style>html,body{background-color:#080808;color:#f0ede8}html{color-scheme:dark}</style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500&family=Barlow+Condensed:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link rel="preload" as="video" href="images/новый блок.mp4" type="video/mp4" media="(min-width: 769px)">
+    <link rel="preload" as="video" href="images/новый блок м.mp4" type="video/mp4" media="(max-width: 768px)">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -43,6 +48,7 @@
             font-weight: 300;
             line-height: 1.6;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         ::-webkit-scrollbar { width: 3px; }
@@ -94,8 +100,19 @@
             display: flex; align-items: center; overflow: hidden;
             background: var(--bg);
         }
-        #heroCanvas { opacity: 0; transition: opacity 1.2s ease; }
-        #hero .hero-content { opacity: 0; transition: opacity 1.2s ease; }
+        #heroCanvas {
+            opacity: 0;
+            transition: opacity 1.35s cubic-bezier(0.22, 1, 0.36, 1);
+            background: #060606;
+        }
+        #hero .hero-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        #hero.hero-ready #heroCanvas,
+        #hero.hero-ready .hero-content { opacity: 1; }
+        #hero.hero-ready .hero-content { visibility: visible; }
 
         .hero-video {
             position: absolute; inset: 0;
@@ -299,6 +316,7 @@
             background: var(--s2); border: 1px solid var(--border);
             padding: 96px 58px; transition: border-color .3s, background .3s;
             position: relative; overflow: hidden;
+            isolation: isolate;
         }
         .card:hover { border-color: rgba(200,16,46,.5); background: #0d0d0d; }
 
@@ -425,6 +443,8 @@
         .detail-video {
             position: relative; overflow: hidden;
             border: 1px solid var(--border); aspect-ratio: 3/4;
+            background: #060606;
+            transform: translateZ(0);
         }
         .detail-video video {
             position: absolute; inset: 0;
@@ -525,10 +545,34 @@
 
         /* ─── MAP ─────────────────────────────────── */
         #map { position: relative; }
-        #map iframe {
+        .map-stage {
+            position: relative;
+            min-height: 460px;
+            background: linear-gradient(165deg, #0a0a0a 0%, #121212 50%, #0a0a0a 100%);
+            overflow: hidden;
+        }
+        .map-placeholder {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% 40%, rgba(200,16,46,.06) 0%, transparent 55%),
+                linear-gradient(180deg, #0c0c0c 0%, #101010 100%);
+            opacity: 1;
+            transition: opacity 0.65s ease;
+        }
+        .map-placeholder.is-hidden { opacity: 0; }
+        #map iframe.map-iframe {
+            position: relative;
+            z-index: 1;
             width: 100%; height: 460px; border: none; display: block;
             filter: grayscale(.8) contrast(1.1) brightness(.65);
+            opacity: 0;
+            transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            background: #0c0c0c;
         }
+        #map iframe.map-iframe.is-loaded { opacity: 1; }
         .map-card {
             position: absolute; top: 50%; left: 64px; transform: translateY(-50%);
             background: rgba(8,8,8,.96); border: 1px solid var(--border);
@@ -658,16 +702,15 @@
             background: linear-gradient(
                 to right,
                 transparent 0%,
-                rgba(255,255,255,.01) 25%,
-                rgba(255,255,255,.07) 42%,
-                rgba(255,255,255,.18) 50%,
-                rgba(255,255,255,.07) 58%,
-                rgba(255,255,255,.01) 75%,
+                rgba(160,160,160,.02) 25%,
+                rgba(180,180,180,.05) 42%,
+                rgba(190,190,190,.08) 50%,
+                rgba(180,180,180,.05) 58%,
+                rgba(160,160,160,.02) 75%,
                 transparent 100%
             );
             transform: translateX(-180%) skewX(-18deg);
             animation: card-shimmer 18s linear infinite;
-            will-change: transform, opacity;
             pointer-events: none; z-index: 3;
         }
         .card:nth-child(2)::after { animation-delay: 6s; }
@@ -677,10 +720,10 @@
         /* ─── ANIMATIONS ──────────────────────────── */
         .fi {
             opacity: 0;
-            transform: translateY(22px);
-            transition: opacity .8s cubic-bezier(0.22, 1, 0.36, 1), transform .8s cubic-bezier(0.22, 1, 0.36, 1);
+            transform: translate3d(0, 18px, 0);
+            transition: opacity .75s cubic-bezier(0.22, 1, 0.36, 1), transform .75s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .fi.v { opacity: 1; transform: translateY(0); }
+        .fi.v { opacity: 1; transform: translate3d(0, 0, 0); }
         .fi:not(.v).d1 { transition-delay: .1s; }
         .fi:not(.v).d2 { transition-delay: .2s; }
         .fi:not(.v).d3 { transition-delay: .3s; }
@@ -736,7 +779,8 @@
             #contacts { padding: 60px 24px; }
             #covers { padding: 60px 24px; }
             .map-card { position: static; transform: none; margin: 0; min-width: 0; border-left: none; border-top: 3px solid var(--red); }
-            #map iframe { height: 300px; }
+            .map-stage { min-height: 300px; }
+            #map iframe.map-iframe { height: 300px; min-height: 300px; }
             footer { grid-template-columns: 1fr; gap: 14px; padding: 28px 24px; }
             .footer-copy { align-items: flex-start; text-align: left; }
             .footer-legal { justify-self: end; gap: 16px; flex-direction: column; align-items: flex-end; }
@@ -814,7 +858,7 @@
 
 <!-- ══ HERO ════════════════════════════════════════════════════ -->
 <section id="hero">
-    <video id="heroFwd" muted playsinline webkit-playsinline preload="metadata" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
+    <video id="heroFwd" muted playsinline webkit-playsinline preload="auto" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
         <source src="images/новый блок.mp4" type="video/mp4">
     </video>
     <video id="heroRev" muted playsinline webkit-playsinline preload="none" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
@@ -1058,12 +1102,16 @@
 </div>
 
 <!-- ══ MAP ══════════════════════════════════════════════════════ -->
-<div id="map" class="fi">
-    <iframe
-        src="https://yandex.ru/map-widget/v1/?text=%D0%9C%D0%B0%D1%85%D0%B0%D1%87%D0%BA%D0%B0%D0%BB%D0%B0%2C+%D0%A1%D0%B5%D0%BC%D0%B5%D0%BD%D0%B4%D0%B5%D1%80%2C+%D1%83%D0%BB.+%D0%9A%D0%B8%D1%80%D0%BE%D0%B2%D0%B0+56&z=16&l=map"
-        allowfullscreen=""
-        loading="lazy">
-    </iframe>
+<div id="map" class="fi map-wrap">
+    <div class="map-stage">
+        <div class="map-placeholder" id="mapPlaceholder" aria-hidden="true"></div>
+        <iframe
+            id="mapFrame"
+            class="map-iframe"
+            title="Карта — Mukhtar Ruli, Махачкала"
+            data-src="https://yandex.ru/map-widget/v1/?text=%D0%9C%D0%B0%D1%85%D0%B0%D1%87%D0%BA%D0%B0%D0%BB%D0%B0%2C+%D0%A1%D0%B5%D0%BC%D0%B5%D0%BD%D0%B4%D0%B5%D1%80%2C+%D1%83%D0%BB.+%D0%9A%D0%B8%D1%80%D0%BE%D0%B2%D0%B0+56&z=16&l=map"
+            allowfullscreen=""></iframe>
+    </div>
     <div class="map-card fi">
         <div class="map-card-title">Как нас найти</div>
         <div class="map-card-addr">
@@ -1128,15 +1176,15 @@
 
         let heroRevealTimer;
         let heroRevealed = false;
+        const heroEl = document.getElementById('hero');
         function revealHero() {
             if (heroRevealed) return;
             heroRevealed = true;
             clearTimeout(heroRevealTimer);
-            cvs.style.opacity = '1';
-            document.querySelector('#hero .hero-content').style.opacity = '1';
+            heroEl.classList.add('hero-ready');
         }
-        fwd.addEventListener('canplay', revealHero, { once: true });
-        heroRevealTimer = setTimeout(revealHero, 2500);
+        /* Плавное появление только после первого отрисованного кадра на canvas (без «вспышки» текста раньше видео) */
+        heroRevealTimer = setTimeout(revealHero, 5200);
 
         function setSize(v) {
             if (v.videoWidth && (cvs.width !== v.videoWidth || cvs.height !== v.videoHeight)) {
@@ -1149,6 +1197,7 @@
         function paint() {
             if (heroVisible && cvs.width > 0 && active.readyState >= 2) {
                 ctx.drawImage(active, 0, 0, cvs.width, cvs.height);
+                if (!heroRevealed) revealHero();
             }
             if (heroVisible) rafId = requestAnimationFrame(paint);
         }
@@ -1256,6 +1305,37 @@
         });
     }, { threshold: 0.12 });
     document.querySelectorAll('.fi').forEach(el => io.observe(el));
+
+    // Карта Яндекса: не грузим тяжёлый iframe до прокрутки; плавное появление после load
+    (function () {
+        const wrap = document.querySelector('.map-wrap');
+        const frame = document.getElementById('mapFrame');
+        const ph = document.getElementById('mapPlaceholder');
+        if (!wrap || !frame) return;
+        const src = frame.getAttribute('data-src');
+        if (!src) return;
+        let shown = false;
+        function showFrame() {
+            if (shown) return;
+            shown = true;
+            frame.classList.add('is-loaded');
+            if (ph) {
+                ph.classList.add('is-hidden');
+                setTimeout(() => { try { ph.remove(); } catch (e) {} }, 750);
+            }
+        }
+        const fallback = setTimeout(showFrame, 10000);
+        frame.addEventListener('load', () => {
+            clearTimeout(fallback);
+            showFrame();
+        }, { once: true });
+        new IntersectionObserver((entries, obs) => {
+            if (!entries[0].isIntersecting) return;
+            obs.disconnect();
+            frame.src = src;
+            frame.removeAttribute('data-src');
+        }, { rootMargin: '320px 0px', threshold: 0 }).observe(wrap);
+    }());
 
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -1500,11 +1580,19 @@
         });
     }());
 
-    // Detailing video fade-to-black loop
+    // Detailing video fade-to-black loop + ранняя подгрузка тяжёлого ролика
     (function () {
         const vid = document.getElementById('detailVid');
         const fade = document.getElementById('detailFade');
-        if (!vid || !fade) return;
+        const detailSection = document.getElementById('detailing');
+        if (!vid || !fade || !detailSection) return;
+
+        new IntersectionObserver((entries, obs) => {
+            if (!entries[0].isIntersecting) return;
+            obs.disconnect();
+            if (window.innerWidth > 1200 && vid.readyState === 0) vid.load();
+        }, { rootMargin: '0px 0px 1800px 0px', threshold: 0 }).observe(detailSection);
+
         if (window.innerWidth < 1200) return;
 
         const FADE_BEFORE = 0.7;
@@ -1522,13 +1610,6 @@
             setTimeout(() => { fade.style.opacity = '0'; }, 80);
         });
 
-        // Start buffering before section is visible
-        new IntersectionObserver((entries, obs) => {
-            if (!entries[0].isIntersecting) return;
-            obs.disconnect();
-            if (vid.readyState === 0) vid.load();
-        }, { rootMargin: '0px 0px 500px 0px', threshold: 0 }).observe(vid.closest('section') || vid);
-
         new IntersectionObserver((entries) => {
             playing = entries[0].isIntersecting;
             if (playing) {
@@ -1544,7 +1625,7 @@
                 vid.pause();
                 _wantPlay.delete(vid);
             }
-        }, { threshold: 0.25 }).observe(vid.closest('section') || vid);
+        }, { threshold: 0.22 }).observe(detailSection);
     }());
 
     // Steering wheel video — smooth loop crossfade
