@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+    <!-- Главная страница -->
+    <url>
+        <loc>https://mukhtar-ruli.ru/</loc>
+        <lastmod>2026-05-05</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- Политика конфиденциальности -->
+    <url>
+        <loc>https://mukhtar-ruli.ru/privacy.html</loc>
+        <lastmod>2026-05-04</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <!-- Пользовательское соглашение -->
+    <url>
+        <loc>https://mukhtar-ruli.ru/terms.html</loc>
+        <lastmod>2026-05-03</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+
+    <!-- 404 страница -->
+    <url>
+        <loc>https://mukhtar-ruli.ru/404.html</loc>
+        <lastmod>2026-05-01</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.1</priority>
+    </url>
+
+</urlset>
