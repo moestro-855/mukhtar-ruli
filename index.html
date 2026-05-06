@@ -1681,7 +1681,7 @@
         
         parent.appendChild(vid2);
 
-        const FADE_TIME = 0.8;
+        const FADE_TIME = 0.6;
         let active = vid1;
         let next = vid2;
         let fading = false;
@@ -1689,15 +1689,15 @@
         function onTimeUpdate(e) {
             const v = e.target;
             if (v !== active) return;
-            
+
             if (!fading && v.duration && v.currentTime >= v.duration - FADE_TIME) {
                 fading = true;
                 next.currentTime = 0;
                 next.play().catch(() => {});
-                
-                next.style.transition = `opacity ${FADE_TIME}s ease`;
-                v.style.transition = `opacity ${FADE_TIME}s ease`;
-                
+
+                next.style.transition = `opacity ${FADE_TIME}s linear`;
+                v.style.transition = `opacity ${FADE_TIME}s linear`;
+
                 next.style.opacity = '1';
                 v.style.opacity = '0';
                 
