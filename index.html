@@ -57,9 +57,10 @@
     <style>html,body{background-color:#080808;color:#f0ede8}html{color-scheme:dark}</style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500&family=Barlow+Condensed:ital,wght@1,700&display=swap" rel="stylesheet">
-    <link rel="preload" as="video" href="images/новый блок.mp4" type="video/mp4" media="(min-width: 769px)">
-    <link rel="preload" as="video" href="images/новый блок м.mp4" type="video/mp4" media="(max-width: 768px)">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500&family=Barlow+Condensed:ital,wght@1,700&display=swap" onload="this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500&family=Barlow+Condensed:ital,wght@1,700&display=swap" rel="stylesheet"></noscript>
+    <link rel="preload" as="video" href="images/новый блок.mp4" type="video/mp4" media="(min-width: 769px)" fetchpriority="high">
+    <link rel="preload" as="video" href="images/новый блок м.mp4" type="video/mp4" media="(max-width: 768px)" fetchpriority="high">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1337,7 +1338,7 @@
                 io.unobserve(e.target);
             }
         });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.08 });
     document.querySelectorAll('.fi').forEach(el => io.observe(el));
 
     // Карта Яндекса: не грузим тяжёлый iframe до прокрутки; плавное появление после load
@@ -1391,8 +1392,8 @@
             if (e.isIntersecting) {
                 v.setAttribute('autoplay', '');
                 const doPlay = () => { v.currentTime = 0; _tryPlay(v); };
-                if (v.readyState === 0) {
-                    v.load();
+                if (v.readyState < 2) {
+                    if (v.readyState === 0) v.load();
                     v.addEventListener('canplay', doPlay, { once: true });
                 } else {
                     doPlay();
@@ -1422,7 +1423,7 @@
             if (!entries[0].isIntersecting) return;
             obs.disconnect();
             if (v.readyState === 0) v.load();
-        }, { rootMargin: '0px 0px 400px 0px', threshold: 0 }).observe(v);
+        }, { rootMargin: '0px 0px 700px 0px', threshold: 0 }).observe(v);
         videoObserver.observe(v);
     });
 
@@ -1469,9 +1470,9 @@
                     document.querySelector('.card.d3 .card-d3-rev'),
                 ].forEach((v, i) => {
                     if (v && v.readyState === 0)
-                        setTimeout(() => v.load(), i * 200);
+                        setTimeout(() => v.load(), i * 80);
                 });
-            }, { rootMargin: '0px 0px 350px 0px', threshold: 0 }).observe(cardsGrid);
+            }, { rootMargin: '0px 0px 700px 0px', threshold: 0 }).observe(cardsGrid);
         }
     }
 
@@ -1648,8 +1649,8 @@
             playing = entries[0].isIntersecting;
             if (playing) {
                 vid.setAttribute('autoplay', '');
-                if (vid.readyState === 0) {
-                    vid.load();
+                if (vid.readyState < 2) {
+                    if (vid.readyState === 0) vid.load();
                     vid.addEventListener('canplay', () => _tryPlay(vid), { once: true });
                 } else {
                     _tryPlay(vid);
