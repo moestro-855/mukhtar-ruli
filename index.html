@@ -894,7 +894,7 @@
 
 <!-- ══ HERO ════════════════════════════════════════════════════ -->
 <section id="hero">
-    <video id="heroFwd" muted playsinline webkit-playsinline preload="auto" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
+    <video id="heroFwd" muted autoplay playsinline webkit-playsinline preload="auto" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
         <source src="images/новый блок.mp4" type="video/mp4">
     </video>
     <video id="heroRev" muted playsinline webkit-playsinline preload="none" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
@@ -1273,11 +1273,12 @@
 
         fwd.addEventListener('ended', () => {
             if (!heroVisible) return;
-            rev.load();
+            if (rev.readyState === 0) rev.load(); // fallback if not preloaded
+            const delay = window.innerWidth <= 768 ? 400 : 1500;
             pauseTimer = setTimeout(() => {
                 if (!heroVisible) return;
                 switchTo(rev, () => { active = rev; _tryPlay(rev); });
-            }, 1500);
+            }, delay);
         });
 
         rev.addEventListener('ended', () => {
@@ -1316,7 +1317,16 @@
             rev.querySelector('source').src = 'images/новый блок reversed м.mp4';
         }
         fwd.load();
-        // rev загружается только когда fwd заканчивается первый раз
+        if (window.innerWidth <= 500) {
+            // xs files are tiny (~100KB each) — load both immediately
+            rev.load();
+        } else if (window.innerWidth <= 768) {
+            // mobile: start loading rev as soon as fwd begins buffering
+            fwd.addEventListener('canplay', () => {
+                if (rev.readyState === 0) rev.load();
+            }, { once: true });
+        }
+        // desktop: rev loads only when fwd finishes first play (saves bandwidth)
     }());
 
     // Sticky header
