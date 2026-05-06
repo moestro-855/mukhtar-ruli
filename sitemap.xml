@@ -28,12 +28,5 @@
         <priority>0.3</priority>
     </url>
 
-    <!-- 404 страница -->
-    <url>
-        <loc>https://mukhtar-ruli.ru/404.html</loc>
-        <lastmod>2026-05-01</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.1</priority>
-    </url>
 
 </urlset>

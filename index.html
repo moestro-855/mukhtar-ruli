@@ -58,7 +58,7 @@
     <meta name="theme-color" content="#080808">
     <meta name="color-scheme" content="dark">
     <!-- Instant paint: no white flash before main stylesheet -->
-    <style>html,body{background-color:#080808;color:#f0ede8}html{color-scheme:dark}</style>
+    <style>html,body{background-color:#080808;overflow-x:hidden;color:#f0ede8}html{color-scheme:dark}</style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500&family=Barlow+Condensed:ital,wght@1,700&display=swap" onload="this.rel='stylesheet'">
@@ -68,6 +68,8 @@
     <link rel="preload" as="video" href="images/новый блок xs.mp4" type="video/mp4" media="(max-width: 500px)" fetchpriority="high">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { overflow-x: hidden; background: #080808; }
 
         :root {
             --bg:       #080808;
@@ -256,6 +258,7 @@
             display: grid; grid-template-columns: repeat(4,1fr);
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
+            background: var(--bg);
         }
 
         .srv {
@@ -313,6 +316,7 @@
             display: grid; grid-template-columns: 1fr 1fr;
             gap: 48px; align-items: center;
             padding: 110px 64px 110px 160px;
+            background: var(--bg);
         }
 
 
@@ -478,6 +482,7 @@
         #detailing {
             padding: 110px 64px;
             display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 48px; align-items: center;
+            background: var(--bg);
         }
 
         .detail-video {
@@ -752,6 +757,7 @@
             transform: translateX(-180%) skewX(-18deg);
             animation: card-shimmer 18s linear infinite;
             pointer-events: none; z-index: 3;
+            will-change: transform;
         }
         .card:nth-child(2)::after { animation-delay: 6s; }
         .card:nth-child(3)::after { animation-delay: 12s; }
@@ -760,10 +766,10 @@
         /* ─── ANIMATIONS ──────────────────────────── */
         .fi {
             opacity: 0;
-            transform: translate3d(0, 18px, 0);
+            transform: translateY(18px);
             transition: opacity .75s cubic-bezier(0.22, 1, 0.36, 1), transform .75s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .fi.v { opacity: 1; transform: translate3d(0, 0, 0); }
+        .fi.v { opacity: 1; transform: translateY(0); }
         .fi:not(.v).d1 { transition-delay: .1s; }
         .fi:not(.v).d2 { transition-delay: .2s; }
         .fi:not(.v).d3 { transition-delay: .3s; }
@@ -1261,9 +1267,10 @@
             ];
             els.forEach(el => {
                 if (!el) return;
-                el.style.animationName = 'none';
-                el.offsetHeight;
-                el.style.animationName = '';
+                el.style.animation = 'none';
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => { el.style.animation = ''; });
+                });
             });
         }
 
