@@ -1443,12 +1443,12 @@
                 v.load();
             }
         }
-        // Preload before visible so video is ready when section enters viewport
+        // Fallback IO preload (timer approach below fires first on desktop)
         new IntersectionObserver((entries, obs) => {
             if (!entries[0].isIntersecting) return;
             obs.disconnect();
             if (v.readyState === 0) v.load();
-        }, { rootMargin: '0px 0px 700px 0px', threshold: 0 }).observe(v);
+        }, { rootMargin: '0px 0px 1500px 0px', threshold: 0 }).observe(v);
         videoObserver.observe(v);
     });
 
@@ -1481,7 +1481,7 @@
         });
     });
 
-    // Preload card videos as section approaches viewport (desktop / hover-capable only)
+    // Fallback IO preload for card videos (timer above fires first; this catches slow-network edge cases)
     if (!window.matchMedia('(hover: none)').matches && window.innerWidth >= 1200) {
         const cardsGrid = document.querySelector('.cards-grid');
         if (cardsGrid) {
@@ -1497,8 +1497,32 @@
                     if (v && v.readyState === 0)
                         setTimeout(() => v.load(), i * 80);
                 });
-            }, { rootMargin: '0px 0px 1500px 0px', threshold: 0 }).observe(cardsGrid);
+            }, { rootMargin: '0px 0px 2000px 0px', threshold: 0 }).observe(cardsGrid);
         }
+    }
+
+    // Progressive video preload: after hero plays, load all section videos in priority order
+    // This fires before IO observers on desktop, so videos are ready before user scrolls to them
+    if (!window.matchMedia('(hover: none)').matches && window.innerWidth >= 1200) {
+        const heroEl = document.getElementById('heroFwd');
+        const schedulePreloads = () => {
+            // 800ms: scroll-videos (ruli + poliki) — first sections user scrolls through
+            setTimeout(() => {
+                document.querySelectorAll('.scroll-video').forEach(v => {
+                    if (v.readyState === 0) v.load();
+                });
+            }, 800);
+            // 1500ms: card hover videos (d1, d2, d3-fwd)
+            setTimeout(() => {
+                ['.card.d1 .card-vid', '.card.d2 .card-vid', '.card.d3 .card-d3-fwd'].forEach(sel => {
+                    const v = document.querySelector(sel);
+                    if (v && v.readyState === 0) v.load();
+                });
+            }, 1500);
+            // 3000ms: detailVid loaded separately in its own block above
+        };
+        if (heroEl && heroEl.readyState >= 2) schedulePreloads();
+        else if (heroEl) heroEl.addEventListener('canplay', schedulePreloads, { once: true });
     }
 
     // Card d3 ping-pong
@@ -1647,11 +1671,13 @@
         const detailSection = document.getElementById('detailing');
         if (!vid || !fade || !detailSection) return;
 
-        new IntersectionObserver((entries, obs) => {
-            if (!entries[0].isIntersecting) return;
-            obs.disconnect();
-            if (window.innerWidth > 1200 && vid.readyState === 0) vid.load();
-        }, { rootMargin: '0px 0px 1800px 0px', threshold: 0 }).observe(detailSection);
+        // Eager preload: start after hero plays — not tied to scroll proximity
+        if (window.innerWidth > 1200) {
+            const heroEl = document.getElementById('heroFwd');
+            const earlyLoad = () => setTimeout(() => { if (vid.readyState === 0) vid.load(); }, 2500);
+            if (heroEl && heroEl.readyState >= 2) earlyLoad();
+            else if (heroEl) heroEl.addEventListener('canplay', earlyLoad, { once: true });
+        }
 
         if (window.innerWidth < 1200) return;
 
