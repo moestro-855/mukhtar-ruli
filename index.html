@@ -1497,7 +1497,7 @@
                     if (v && v.readyState === 0)
                         setTimeout(() => v.load(), i * 80);
                 });
-            }, { rootMargin: '0px 0px 700px 0px', threshold: 0 }).observe(cardsGrid);
+            }, { rootMargin: '0px 0px 1500px 0px', threshold: 0 }).observe(cardsGrid);
         }
     }
 
@@ -1624,11 +1624,11 @@
                     }, 200);
                 };
                 fwd.currentTime = WIDE_T;
-                // Wait for frame to decode before showing — prevents black screen on first hover
+                // canplay guarantees readyState ≥ 3 (decodable frame) — seeked does not
                 if (fwd.readyState >= 2) {
                     doShow();
                 } else {
-                    fwd.addEventListener('seeked', doShow, { once: true });
+                    fwd.addEventListener('canplay', doShow, { once: true });
                 }
             }, 80);
         });
