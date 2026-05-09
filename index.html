@@ -175,11 +175,11 @@
             isolation: isolate;
         }
         .hero-content::before {
-            content: ''; position: absolute; inset: -28px -10px; z-index: -1;
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            mask-image: linear-gradient(to right, black 55%, rgba(0,0,0,0.5) 82%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to right, black 55%, rgba(0,0,0,0.5) 82%, transparent 100%);
+            content: ''; position: absolute; inset: -60px -40px; z-index: -1;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            mask-image: radial-gradient(ellipse 80% 80% at 38% 48%, black 0%, rgba(0,0,0,0.6) 38%, rgba(0,0,0,0.2) 60%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 80% at 38% 48%, black 0%, rgba(0,0,0,0.6) 38%, rgba(0,0,0,0.2) 60%, transparent 80%);
         }
 
         .hero-badge {
@@ -865,9 +865,9 @@
 
         @media (max-width: 480px) {
             .hero-content::before {
-                inset: -20px -5px;
-                mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
-                -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+                inset: -50px -30px;
+                mask-image: radial-gradient(ellipse 90% 75% at 50% 45%, black 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.15) 62%, transparent 80%);
+                -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 45%, black 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.15) 62%, transparent 80%);
             }
             #header { padding: 18px 20px; }
             #header.scrolled { padding: 14px 20px; }
