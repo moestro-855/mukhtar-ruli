@@ -1072,7 +1072,7 @@
     </div>
     <div class="detail-video fi d2">
         <video id="detailVid" muted playsinline webkit-playsinline preload="none">
-            <source src="images/последний блок сжато1.mp4" type="video/mp4">
+            <source src="images/последний блок (2).mp4" type="video/mp4">
         </video>
         <div id="detailFade"></div>
     </div>
@@ -1647,13 +1647,13 @@
         const detailSection = document.getElementById('detailing');
         if (!vid || !fade || !detailSection) return;
 
-        // Load detailVid when detailing section is ~1200px below viewport
+        // Load detailVid early — section is deep in page, needs generous lead time
         if (window.innerWidth > 1200) {
             new IntersectionObserver((entries, obs) => {
                 if (!entries[0].isIntersecting) return;
                 obs.disconnect();
                 if (vid.readyState === 0) vid.load();
-            }, { rootMargin: '0px 0px 1200px 0px', threshold: 0 }).observe(detailSection);
+            }, { rootMargin: '0px 0px 1800px 0px', threshold: 0 }).observe(detailSection);
         }
 
         if (window.innerWidth < 1200) return;
