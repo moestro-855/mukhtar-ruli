@@ -168,6 +168,7 @@
                 rgba(8,8,8,.18) 45%,
                 rgba(8,8,8,0)   100%);
         }
+        .hero-mob-blur { display: none; }
 
         .hero-content {
             position: relative; z-index: 2;
@@ -856,6 +857,14 @@
         }
 
         @media (max-width: 480px) {
+            .hero-mob-blur {
+                display: block;
+                position: absolute; inset: 0; z-index: 1;
+                backdrop-filter: blur(6px);
+                -webkit-backdrop-filter: blur(6px);
+                mask-image: linear-gradient(160deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 45%, rgba(0,0,0,0) 72%);
+                -webkit-mask-image: linear-gradient(160deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7) 45%, rgba(0,0,0,0) 72%);
+            }
             #header { padding: 18px 20px; }
             #header.scrolled { padding: 14px 20px; }
             .hero-content { padding: 0 20px; }
@@ -920,6 +929,7 @@
     </video>
     <canvas id="heroCanvas" class="hero-video"></canvas>
     <div class="hero-overlay"></div>
+    <div class="hero-mob-blur"></div>
 
     <div class="hero-content">
         <div class="hero-badge">Автостудия · Махачкала · Семендер</div>
@@ -1250,7 +1260,22 @@
         let rafId;
         function paint() {
             if (heroVisible && cvs.width > 0 && active.readyState >= 2) {
-                ctx.drawImage(active, 0, 0, cvs.width, cvs.height);
+                const vW = active.videoWidth;
+                const vH = active.videoHeight;
+                const cW = cvs.width;
+                const cH = cvs.height;
+                if (vW && vH) {
+                    // object-fit: cover + object-position in JS (reliable on canvas)
+                    const scale = Math.max(cW / vW, cH / vH);
+                    const sW = cW / scale;
+                    const sH = cH / scale;
+                    const posX = window.innerWidth <= 500 ? 0.72 : 0.5;
+                    const sx = Math.max(0, (vW - sW) * posX);
+                    const sy = Math.max(0, (vH - sH) * 0.5);
+                    ctx.drawImage(active, sx, sy, sW, sH, 0, 0, cW, cH);
+                } else {
+                    ctx.drawImage(active, 0, 0, cW, cH);
+                }
                 if (!heroRevealed) revealHero();
             }
             if (heroVisible) rafId = requestAnimationFrame(paint);
