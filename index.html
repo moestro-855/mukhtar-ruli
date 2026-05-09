@@ -330,6 +330,7 @@
             width: 100%; height: 560px;
             object-fit: cover; display: block;
             opacity: 0; transition: opacity .7s ease;
+            will-change: opacity;
         }
         .split-media video.vid-visible { opacity: 1; }
 
@@ -497,6 +498,7 @@
             position: absolute; inset: 0;
             width: 100%; height: 100%; object-fit: cover;
             opacity: 0; transition: opacity .7s ease;
+            will-change: opacity;
         }
         .detail-video video.vid-visible { opacity: 1; }
         .detail-video::after {
