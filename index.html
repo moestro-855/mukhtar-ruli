@@ -1332,6 +1332,7 @@
 
         function startFromBeginning() {
             clearTimeout(pauseTimer);
+            _wantPlay.delete(rev);
             fwd.pause();
             rev.pause();
             active = fwd;
@@ -1340,7 +1341,8 @@
 
         fwd.addEventListener('ended', () => {
             if (!heroVisible) return;
-            if (rev.readyState === 0) rev.load(); // fallback if not preloaded
+            _wantPlay.delete(fwd);
+            if (rev.readyState === 0) rev.load();
             const delay = window.innerWidth <= 768 ? 400 : 1500;
             pauseTimer = setTimeout(() => {
                 if (!heroVisible) return;
@@ -1350,6 +1352,7 @@
 
         rev.addEventListener('ended', () => {
             if (!heroVisible) return;
+            _wantPlay.delete(rev);
             switchTo(fwd, () => { active = fwd; syncGlare(); _tryPlay(fwd); });
         });
 
@@ -1358,7 +1361,7 @@
 
         fwd.addEventListener('canplaythrough', () => {
             setSize(fwd);
-            if (heroVisible) { syncGlare(); _tryPlay(fwd); }
+            if (heroVisible && active === fwd) { syncGlare(); _tryPlay(fwd); }
         });
 
         // Start/stop based on visibility
@@ -1384,11 +1387,8 @@
             rev.querySelector('source').src = 'images/новый блок reversed м.mp4';
         }
         fwd.load();
-        if (window.innerWidth <= 500) {
-            // xs files are tiny (~100KB each) — load both immediately
-            rev.load();
-        } else if (window.innerWidth <= 768) {
-            // mobile: start loading rev as soon as fwd begins buffering
+        if (window.innerWidth <= 768) {
+            // load rev after fwd starts buffering — avoids competing for bandwidth at startup
             fwd.addEventListener('canplay', () => {
                 if (rev.readyState === 0) rev.load();
             }, { once: true });
