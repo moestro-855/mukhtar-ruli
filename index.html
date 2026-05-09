@@ -1443,12 +1443,12 @@
                 v.load();
             }
         }
-        // Preload ~1.5 screens before section enters viewport
+        // Preload before visible so video is ready when section enters viewport
         new IntersectionObserver((entries, obs) => {
             if (!entries[0].isIntersecting) return;
             obs.disconnect();
             if (v.readyState === 0) v.load();
-        }, { rootMargin: '0px 0px 1200px 0px', threshold: 0 }).observe(v);
+        }, { rootMargin: '0px 0px 700px 0px', threshold: 0 }).observe(v);
         videoObserver.observe(v);
     });
 
@@ -1481,8 +1481,7 @@
         });
     });
 
-    // Card hover videos: load when grid is ~600px below viewport (user about to see cards)
-    // Staggered 150ms apart so they don't compete for bandwidth simultaneously
+    // Preload card videos as section approaches viewport (desktop / hover-capable only)
     if (!window.matchMedia('(hover: none)').matches && window.innerWidth >= 1200) {
         const cardsGrid = document.querySelector('.cards-grid');
         if (cardsGrid) {
@@ -1493,11 +1492,12 @@
                     document.querySelector('.card.d1 .card-vid'),
                     document.querySelector('.card.d2 .card-vid'),
                     document.querySelector('.card.d3 .card-d3-fwd'),
+                    document.querySelector('.card.d3 .card-d3-rev'),
                 ].forEach((v, i) => {
                     if (v && v.readyState === 0)
-                        setTimeout(() => v.load(), i * 150);
+                        setTimeout(() => v.load(), i * 80);
                 });
-            }, { rootMargin: '0px 0px 600px 0px', threshold: 0 }).observe(cardsGrid);
+            }, { rootMargin: '0px 0px 1500px 0px', threshold: 0 }).observe(cardsGrid);
         }
     }
 
