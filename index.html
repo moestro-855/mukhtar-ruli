@@ -173,13 +173,10 @@
             position: relative; z-index: 2;
             padding: 0 64px; max-width: 680px;
         }
-        .hero-content::before {
-            content: ''; position: absolute; inset: -24px -10px; z-index: -1;
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            mask-image: linear-gradient(to right, black 65%, rgba(0,0,0,0.4) 88%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to right, black 65%, rgba(0,0,0,0.4) 88%, transparent 100%);
-        }
+        .hero-badge  { text-shadow: 0 0 20px rgba(0,0,0,0.8), 0 0 50px rgba(0,0,0,0.45); }
+        .hero-line1  { text-shadow: 0 0 28px rgba(0,0,0,0.75), 0 0 65px rgba(0,0,0,0.35), 0 0 110px rgba(0,0,0,0.15); }
+        .hero-title .red { text-shadow: 0 0 28px rgba(0,0,0,0.75), 0 0 65px rgba(0,0,0,0.35), 0 0 110px rgba(0,0,0,0.15); }
+        .hero-sub    { text-shadow: 0 0 22px rgba(0,0,0,0.8),  0 0 55px rgba(0,0,0,0.4); }
 
         .hero-badge {
             display: inline-flex; align-items: center; gap: 12px;
