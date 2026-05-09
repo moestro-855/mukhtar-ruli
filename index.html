@@ -64,8 +64,8 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500&family=Barlow+Condensed:ital,wght@1,700&display=swap" onload="this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500&family=Barlow+Condensed:ital,wght@1,700&display=swap" rel="stylesheet"></noscript>
     <link rel="preload" as="video" href="images/новый блок.mp4" type="video/mp4" media="(min-width: 769px)" fetchpriority="high">
-    <link rel="preload" as="video" href="images/новый блок м final-enhanced (1).mp4" type="video/mp4" media="(min-width: 501px) and (max-width: 768px)" fetchpriority="high">
-    <link rel="preload" as="video" href="images/новый блок xs.mp4" type="video/mp4" media="(max-width: 500px)" fetchpriority="high">
+    <link rel="preload" as="video" href="images/новый блок м.mp4" type="video/mp4" media="(min-width: 501px) and (max-width: 768px)" fetchpriority="high">
+    <link rel="preload" as="video" href="images/новый блок м final-enhanced (1).mp4" type="video/mp4" media="(max-width: 500px)" fetchpriority="high">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1329,11 +1329,11 @@
         }, { threshold: 0.2 }).observe(document.getElementById('hero'));
 
         if (window.innerWidth <= 500) {
-            fwd.querySelector('source').src = 'images/новый блок xs.mp4';
-            rev.querySelector('source').src = 'images/новый блок reversed xs.mp4';
-        } else if (window.innerWidth <= 768) {
             fwd.querySelector('source').src = 'images/новый блок м final-enhanced (1).mp4';
             rev.querySelector('source').src = 'images/новый блок reversed м final-enhanced (1).mp4';
+        } else if (window.innerWidth <= 768) {
+            fwd.querySelector('source').src = 'images/новый блок м.mp4';
+            rev.querySelector('source').src = 'images/новый блок reversed м.mp4';
         }
         fwd.load();
         if (window.innerWidth <= 500) {
