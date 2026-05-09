@@ -172,22 +172,11 @@
         .hero-content {
             position: relative; z-index: 2;
             padding: 0 64px; max-width: 680px;
-            isolation: isolate;
         }
-        .hero-content::before {
-            content: ''; position: absolute; inset: -100px -120px; z-index: -1;
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            background: radial-gradient(ellipse 55% 60% at 32% 47%,
-                rgba(0,0,0,0.38) 0%,
-                rgba(0,0,0,0.22) 32%,
-                rgba(0,0,0,0.08) 56%,
-                transparent 100%);
-            mask-image: radial-gradient(ellipse 55% 60% at 32% 47%,
-                black 0%, rgba(0,0,0,0.7) 32%, rgba(0,0,0,0.25) 58%, transparent 100%);
-            -webkit-mask-image: radial-gradient(ellipse 55% 60% at 32% 47%,
-                black 0%, rgba(0,0,0,0.7) 32%, rgba(0,0,0,0.25) 58%, transparent 100%);
-        }
+        .hero-badge { text-shadow: 0 0 18px rgba(0,0,0,0.95), 0 0 40px rgba(0,0,0,0.7); }
+        .hero-line1  { text-shadow: 0 0 35px rgba(0,0,0,0.9), 0 0 80px rgba(0,0,0,0.55); }
+        .hero-title .red { text-shadow: 0 0 35px rgba(0,0,0,0.9), 0 0 80px rgba(0,0,0,0.55); }
+        .hero-sub    { text-shadow: 0 0 22px rgba(0,0,0,0.95), 0 0 55px rgba(0,0,0,0.7); }
 
         .hero-badge {
             display: inline-flex; align-items: center; gap: 12px;
@@ -871,18 +860,6 @@
         }
 
         @media (max-width: 480px) {
-            .hero-content::before {
-                inset: -80px -60px;
-                background: radial-gradient(ellipse 65% 60% at 50% 44%,
-                    rgba(0,0,0,0.38) 0%,
-                    rgba(0,0,0,0.22) 35%,
-                    rgba(0,0,0,0.07) 58%,
-                    transparent 100%);
-                mask-image: radial-gradient(ellipse 65% 60% at 50% 44%,
-                    black 0%, rgba(0,0,0,0.65) 35%, rgba(0,0,0,0.2) 60%, transparent 100%);
-                -webkit-mask-image: radial-gradient(ellipse 65% 60% at 50% 44%,
-                    black 0%, rgba(0,0,0,0.65) 35%, rgba(0,0,0,0.2) 60%, transparent 100%);
-            }
             #header { padding: 18px 20px; }
             #header.scrolled { padding: 14px 20px; }
             .hero-content { padding: 0 20px; }
