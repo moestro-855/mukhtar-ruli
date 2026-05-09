@@ -149,12 +149,12 @@
         }
         #hero .hero-content {
             opacity: 0;
-            visibility: hidden;
+            pointer-events: none;
             transition: opacity 1.35s cubic-bezier(0.22, 1, 0.36, 1);
         }
         #hero.hero-ready #heroCanvas,
         #hero.hero-ready .hero-content { opacity: 1; }
-        #hero.hero-ready .hero-content { visibility: visible; }
+        #hero.hero-ready .hero-content { pointer-events: auto; }
 
         .hero-video {
             position: absolute; inset: 0;
@@ -176,12 +176,17 @@
         }
         .hero-content::before {
             content: ''; position: absolute; inset: -100px -120px; z-index: -1;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             background: radial-gradient(ellipse 55% 60% at 32% 47%,
-                rgba(0,0,0,0.42) 0%,
-                rgba(0,0,0,0.28) 28%,
-                rgba(0,0,0,0.12) 52%,
-                rgba(0,0,0,0.03) 72%,
+                rgba(0,0,0,0.38) 0%,
+                rgba(0,0,0,0.22) 32%,
+                rgba(0,0,0,0.08) 56%,
                 transparent 100%);
+            mask-image: radial-gradient(ellipse 55% 60% at 32% 47%,
+                black 0%, rgba(0,0,0,0.7) 32%, rgba(0,0,0,0.25) 58%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 55% 60% at 32% 47%,
+                black 0%, rgba(0,0,0,0.7) 32%, rgba(0,0,0,0.25) 58%, transparent 100%);
         }
 
         .hero-badge {
@@ -238,7 +243,7 @@
             font-family: 'Playfair Display', serif;
             font-size: clamp(17px, 2.2vw, 26px);
             font-style: italic; font-weight: 400;
-            color: rgba(240, 237, 232, 0.82); margin-bottom: 28px;
+            color: rgba(240, 237, 232, 0.97); margin-bottom: 28px;
             letter-spacing: .01em;
             white-space: nowrap;
         }
@@ -869,11 +874,14 @@
             .hero-content::before {
                 inset: -80px -60px;
                 background: radial-gradient(ellipse 65% 60% at 50% 44%,
-                    rgba(0,0,0,0.42) 0%,
-                    rgba(0,0,0,0.25) 35%,
-                    rgba(0,0,0,0.1)  58%,
-                    rgba(0,0,0,0.02) 76%,
+                    rgba(0,0,0,0.38) 0%,
+                    rgba(0,0,0,0.22) 35%,
+                    rgba(0,0,0,0.07) 58%,
                     transparent 100%);
+                mask-image: radial-gradient(ellipse 65% 60% at 50% 44%,
+                    black 0%, rgba(0,0,0,0.65) 35%, rgba(0,0,0,0.2) 60%, transparent 100%);
+                -webkit-mask-image: radial-gradient(ellipse 65% 60% at 50% 44%,
+                    black 0%, rgba(0,0,0,0.65) 35%, rgba(0,0,0,0.2) 60%, transparent 100%);
             }
             #header { padding: 18px 20px; }
             #header.scrolled { padding: 14px 20px; }
