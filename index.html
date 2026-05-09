@@ -1076,7 +1076,7 @@
         </div>
         <a href="https://wa.me/79887888701" target="_blank" rel="noopener noreferrer" class="btn-primary fi d3 btn-desk">Записаться</a>
     </div>
-    <div class="detail-video fi d2">
+    <div class="detail-video">
         <video id="detailVid" muted playsinline webkit-playsinline preload="none">
             <source src="images/последний блок (2).mp4" type="video/mp4">
         </video>
@@ -1693,9 +1693,12 @@
             } else {
                 vid.removeAttribute('autoplay');
                 vid.pause();
+                vid.currentTime = 0;
+                vid.classList.remove('vid-visible');
+                fade.style.opacity = '0';
                 _wantPlay.delete(vid);
             }
-        }, { threshold: 0.22 }).observe(detailSection);
+        }, { threshold: 0.25 }).observe(vid);
     }());
 
     // Steering wheel video — smooth loop crossfade
