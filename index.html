@@ -985,7 +985,7 @@
 
     <div class="cards-grid">
         <div class="card fi d1">
-            <video class="card-vid" muted loop playsinline preload="metadata">
+            <video class="card-vid" muted loop playsinline preload="none">
                 <source src="images/итог вариант 1 картинка 4s.mp4" type="video/mp4">
             </video>
             <div class="card-overlay-txt card-overlay-txt--right">
@@ -998,7 +998,7 @@
             <div class="card-txt">Универсальные накидки для быстрой защиты сидений — удобно, стильно, практично. Всегда в наличии.</div>
         </div>
         <div class="card fi d2">
-            <video class="card-vid" muted loop playsinline preload="metadata">
+            <video class="card-vid" muted loop playsinline preload="none">
                 <source src="images/первая анимация блока Авточехлы и накидки (1).mp4" type="video/mp4">
             </video>
             <div class="card-overlay-txt">
@@ -1011,7 +1011,7 @@
             <div class="card-txt">Модельные чехлы под конкретный автомобиль — садятся как родные, не съезжают и не морщат.</div>
         </div>
         <div class="card fi d3">
-            <video class="card-vid card-d3-fwd" muted playsinline preload="metadata">
+            <video class="card-vid card-d3-fwd" muted playsinline preload="none">
                 <source src="images/материалы (1).mp4" type="video/mp4">
             </video>
             <video class="card-vid card-d3-rev" muted playsinline preload="none" style="opacity:0;transition:opacity .15s ease;">
@@ -1072,7 +1072,7 @@
     </div>
     <div class="detail-video fi d2">
         <video id="detailVid" muted playsinline webkit-playsinline preload="none">
-            <source src="images/последний блок (2).mp4" type="video/mp4">
+            <source src="images/последний блок сжато1.mp4" type="video/mp4">
         </video>
         <div id="detailFade"></div>
     </div>
@@ -1443,12 +1443,12 @@
                 v.load();
             }
         }
-        // Fallback IO preload (timer approach below fires first on desktop)
+        // Preload ~1.5 screens before section enters viewport
         new IntersectionObserver((entries, obs) => {
             if (!entries[0].isIntersecting) return;
             obs.disconnect();
             if (v.readyState === 0) v.load();
-        }, { rootMargin: '0px 0px 1500px 0px', threshold: 0 }).observe(v);
+        }, { rootMargin: '0px 0px 1200px 0px', threshold: 0 }).observe(v);
         videoObserver.observe(v);
     });
 
@@ -1481,7 +1481,8 @@
         });
     });
 
-    // Fallback IO preload for card videos (timer above fires first; this catches slow-network edge cases)
+    // Card hover videos: load when grid is ~600px below viewport (user about to see cards)
+    // Staggered 150ms apart so they don't compete for bandwidth simultaneously
     if (!window.matchMedia('(hover: none)').matches && window.innerWidth >= 1200) {
         const cardsGrid = document.querySelector('.cards-grid');
         if (cardsGrid) {
@@ -1492,37 +1493,12 @@
                     document.querySelector('.card.d1 .card-vid'),
                     document.querySelector('.card.d2 .card-vid'),
                     document.querySelector('.card.d3 .card-d3-fwd'),
-                    document.querySelector('.card.d3 .card-d3-rev'),
                 ].forEach((v, i) => {
                     if (v && v.readyState === 0)
-                        setTimeout(() => v.load(), i * 80);
+                        setTimeout(() => v.load(), i * 150);
                 });
-            }, { rootMargin: '0px 0px 2000px 0px', threshold: 0 }).observe(cardsGrid);
+            }, { rootMargin: '0px 0px 600px 0px', threshold: 0 }).observe(cardsGrid);
         }
-    }
-
-    // Progressive video preload: after hero plays, load all section videos in priority order
-    // This fires before IO observers on desktop, so videos are ready before user scrolls to them
-    if (!window.matchMedia('(hover: none)').matches && window.innerWidth >= 1200) {
-        const heroEl = document.getElementById('heroFwd');
-        const schedulePreloads = () => {
-            // 800ms: scroll-videos (ruli + poliki) — first sections user scrolls through
-            setTimeout(() => {
-                document.querySelectorAll('.scroll-video').forEach(v => {
-                    if (v.readyState === 0) v.load();
-                });
-            }, 800);
-            // 1500ms: card hover videos (d1, d2, d3-fwd)
-            setTimeout(() => {
-                ['.card.d1 .card-vid', '.card.d2 .card-vid', '.card.d3 .card-d3-fwd'].forEach(sel => {
-                    const v = document.querySelector(sel);
-                    if (v && v.readyState === 0) v.load();
-                });
-            }, 1500);
-            // 3000ms: detailVid loaded separately in its own block above
-        };
-        if (heroEl && heroEl.readyState >= 2) schedulePreloads();
-        else if (heroEl) heroEl.addEventListener('canplay', schedulePreloads, { once: true });
     }
 
     // Card d3 ping-pong
@@ -1671,12 +1647,13 @@
         const detailSection = document.getElementById('detailing');
         if (!vid || !fade || !detailSection) return;
 
-        // Eager preload: start after hero plays — not tied to scroll proximity
+        // Load detailVid when detailing section is ~1200px below viewport
         if (window.innerWidth > 1200) {
-            const heroEl = document.getElementById('heroFwd');
-            const earlyLoad = () => setTimeout(() => { if (vid.readyState === 0) vid.load(); }, 2500);
-            if (heroEl && heroEl.readyState >= 2) earlyLoad();
-            else if (heroEl) heroEl.addEventListener('canplay', earlyLoad, { once: true });
+            new IntersectionObserver((entries, obs) => {
+                if (!entries[0].isIntersecting) return;
+                obs.disconnect();
+                if (vid.readyState === 0) vid.load();
+            }, { rootMargin: '0px 0px 1200px 0px', threshold: 0 }).observe(detailSection);
         }
 
         if (window.innerWidth < 1200) return;
