@@ -228,8 +228,9 @@
             font-family: 'Playfair Display', serif;
             font-size: clamp(17px, 2.2vw, 26px);
             font-style: italic; font-weight: 400;
-            color: var(--text2); margin-bottom: 28px;
+            color: rgba(240, 237, 232, 0.82); margin-bottom: 28px;
             letter-spacing: .01em;
+            white-space: nowrap;
         }
 
         .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
@@ -858,6 +859,7 @@
             #header { padding: 18px 20px; }
             #header.scrolled { padding: 14px 20px; }
             .hero-content { padding: 0 20px; }
+            .hero-sub { white-space: normal; }
             .hero-btns { flex-direction: column; }
             .btn-primary, .btn-ghost { padding: 13px 28px; font-size: 12px; justify-content: center; }
             .divider { margin: 0 20px; }
