@@ -796,6 +796,12 @@
         .fi:not(.v).d3 { transition-delay: .36s; }
         .fi:not(.v).d4 { transition-delay: .48s; }
 
+        /* ─── TITLE REVEAL (Line-by-line) ─────────── */
+        .sec-title.fi, .covers-big.fi { opacity: 1; transform: none; filter: none; transition: none; }
+        .line-mask { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+        .line-text { display: block; transform: translateY(110%); transition: transform 1.1s cubic-bezier(0.19, 1, 0.22, 1); will-change: transform; }
+        .v .line-text { transform: translateY(0); }
+
         /* ─── RESPONSIVE ──────────────────────────── */
         @media (max-width: 1200px) {
             #detailing { grid-template-columns: 1fr 1fr; }
@@ -982,7 +988,10 @@
 <div class="split" id="ruli">
     <div>
         <div class="tag fi">Обтяжка рулей</div>
-        <h2 class="sec-title fi d1"><span style="text-transform:uppercase;letter-spacing:.04em;">Руль</span> —<br>твой <em>характер</em></h2>
+        <h2 class="sec-title fi d1">
+            <span class="line-mask"><span class="line-text" style="transition-delay: 0.15s;"><span style="text-transform:uppercase;letter-spacing:.04em;">Руль</span> —</span></span>
+            <span class="line-mask"><span class="line-text" style="transition-delay: 0.25s;">твой <em>характер</em></span></span>
+        </h2>
         <div class="sec-body fi d2">
             <p>Оплётки и перетяжка рулей вручную — точный крой, ровные швы, любой материал.</p>
             <p>Работаем с любым автомобилем — от классики до спорткара. Подберём материал, цвет и строчку под ваш стиль.</p>
@@ -1008,7 +1017,10 @@
 <!-- ══ COVERS / ЧЕХЛЫ ══════════════════════════════════════════ -->
 <div id="covers">
     <div class="tag fi">Авточехлы и накидки</div>
-    <div class="covers-big fi d1" style="text-align:center;"><span style="text-transform:uppercase;letter-spacing:.04em;">Защита</span><br><em style="color:var(--red);">без </em><em>компромиссов</em></div>
+    <div class="covers-big fi d1" style="text-align:center;">
+        <span class="line-mask"><span class="line-text" style="transition-delay: 0.15s;"><span style="text-transform:uppercase;letter-spacing:.04em;">Защита</span></span></span>
+        <span class="line-mask"><span class="line-text" style="transition-delay: 0.25s;"><em style="color:var(--red);">без </em><em>компромиссов</em></span></span>
+    </div>
 
     <div class="cards-grid">
         <div class="card fi d1">
@@ -1064,7 +1076,10 @@
 <div class="split" id="poliki">
     <div>
         <div class="tag fi">Полики EVA</div>
-        <h2 class="sec-title fi d1"><span style="text-transform:uppercase;letter-spacing:.04em;">Своя</span><br><em>мастерская</em></h2>
+        <h2 class="sec-title fi d1">
+            <span class="line-mask"><span class="line-text" style="transition-delay: 0.15s;"><span style="text-transform:uppercase;letter-spacing:.04em;">Своя</span></span></span>
+            <span class="line-mask"><span class="line-text" style="transition-delay: 0.25s;"><em>мастерская</em></span></span>
+        </h2>
         <div class="sec-body fi d2">
             <p>Мы изготавливаем и продаём полики EVA самостоятельно — полный контроль качества от начала до конца.</p>
             <p>Есть готовые комплекты под популярные модели — берёте сразу. Или изготовим на заказ: сота, рубик, бриллиант, любой цвет бортика и окантовки.</p>
@@ -1091,7 +1106,10 @@
 <div id="detailing">
     <div>
         <div class="tag fi">Детейлинг салона</div>
-        <h2 class="sec-title fi d1"><span style="text-transform:uppercase;letter-spacing:.04em;">Салон</span><br>как <em>новый</em></h2>
+        <h2 class="sec-title fi d1">
+            <span class="line-mask"><span class="line-text" style="transition-delay: 0.15s;"><span style="text-transform:uppercase;letter-spacing:.04em;">Салон</span></span></span>
+            <span class="line-mask"><span class="line-text" style="transition-delay: 0.25s;">как <em>новый</em></span></span>
+        </h2>
         <div class="sec-body fi d2">
             <p>Комплексный детейлинг — это не просто уборка. Глубокая чистка, защита материалов и полное обновление салона.</p>
         </div>
@@ -1126,7 +1144,9 @@
 <div id="contacts">
     <div class="contacts-head">
         <div class="tag fi">Контакты</div>
-        <h2 class="sec-title fi d1" style="text-align:center;text-transform:uppercase;letter-spacing:.04em;">Свяжитесь с нами</h2>
+        <h2 class="sec-title fi d1" style="text-align:center;text-transform:uppercase;letter-spacing:.04em;">
+            <span class="line-mask"><span class="line-text" style="transition-delay: 0.15s;">Свяжитесь с нами</span></span>
+        </h2>
         <p class="sec-body fi d2" style="text-align:center; max-width:100%;">Запишитесь на консультацию или задайте вопрос — ответим быстро.</p>
     </div>
 
