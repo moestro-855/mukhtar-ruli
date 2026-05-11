@@ -147,14 +147,20 @@
             transition: opacity 1.35s cubic-bezier(0.22, 1, 0.36, 1);
             background: #060606;
         }
-        #hero .hero-content {
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-            transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s, transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
-        }
+        #hero .hero-content { pointer-events: none; }
         #hero.hero-ready #heroCanvas { opacity: 1; }
-        #hero.hero-ready .hero-content { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        #hero.hero-ready .hero-content { pointer-events: auto; }
+        
+        .hero-badge, .hero-sub, .hero-btns {
+            opacity: 0; transform: translateY(24px); filter: blur(3px);
+            transition: opacity 1.0s cubic-bezier(0.22, 1, 0.36, 1), transform 1.0s cubic-bezier(0.22, 1, 0.36, 1), filter 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        #hero.hero-ready .hero-badge, #hero.hero-ready .hero-sub, #hero.hero-ready .hero-btns {
+            opacity: 1; transform: translateY(0); filter: blur(0);
+        }
+        #hero .hero-badge { transition-delay: 0.1s; }
+        #hero .hero-sub { transition-delay: 0.45s; }
+        #hero .hero-btns { transition-delay: 0.6s; }
 
         .hero-video {
             position: absolute; inset: 0;
@@ -795,6 +801,8 @@
         .fi:not(.v).d2 { transition-delay: .24s; }
         .fi:not(.v).d3 { transition-delay: .36s; }
         .fi:not(.v).d4 { transition-delay: .48s; }
+        .fi:not(.v).d5 { transition-delay: .60s; }
+        .fi:not(.v).d6 { transition-delay: .72s; }
 
         /* ─── TITLE REVEAL (Line-by-line) ─────────── */
         .sec-title.fi, .covers-big.fi { opacity: 1; transform: none; filter: none; transition: none; }
@@ -949,7 +957,8 @@
     <div class="hero-content">
         <div class="hero-badge">Автостудия · Махачкала · Семендер</div>
         <h1 class="hero-title">
-            <span class="hero-line1">MUKHTAR</span><br><span class="red">RULI</span>
+            <span class="line-mask"><span class="line-text" style="transition-delay: 0.2s;"><span class="hero-line1">MUKHTAR</span></span></span>
+            <span class="line-mask"><span class="line-text" style="transition-delay: 0.3s;"><span class="red">RULI</span></span></span>
         </h1>
         <p class="hero-sub">Мухтар Рули — Премиум автостудия в Махачкале</p>
         <div class="hero-btns">
@@ -992,19 +1001,19 @@
             <span class="line-mask"><span class="line-text" style="transition-delay: 0.15s;"><span style="text-transform:uppercase;letter-spacing:.04em;">Руль</span> —</span></span>
             <span class="line-mask"><span class="line-text" style="transition-delay: 0.25s;">твой <em>характер</em></span></span>
         </h2>
-        <div class="sec-body fi d2">
-            <p>Оплётки и перетяжка рулей вручную — точный крой, ровные швы, любой материал.</p>
-            <p>Работаем с любым автомобилем — от классики до спорткара. Подберём материал, цвет и строчку под ваш стиль.</p>
+        <div class="sec-body">
+            <p class="fi d2">Оплётки и перетяжка рулей вручную — точный крой, ровные швы, любой материал.</p>
+            <p class="fi d3">Работаем с любым автомобилем — от классики до спорткара. Подберём материал, цвет и строчку под ваш стиль.</p>
         </div>
-        <div class="features fi d3">
+        <div class="features fi d4">
             <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Натуральная кожа и алькантара</strong> — материалы высшей категории</div></div>
             <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Любой цвет и прострочка</strong> — делаем строго под ваш запрос</div></div>
             <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Ручная работа</strong> — каждый стежок на совесть</div></div>
             <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Срок от 30 минут</strong> — без долгого ожидания</div></div>
         </div>
-        <a href="https://wa.me/79887888701" target="_blank" rel="noopener noreferrer" class="btn-primary fi d4 btn-desk">Записаться</a>
+        <a href="https://wa.me/79887888701" target="_blank" rel="noopener noreferrer" class="btn-primary fi d5 btn-desk">Записаться</a>
     </div>
-    <div class="split-media fi d2">
+    <div class="split-media fi d3">
         <video id="rulVid" muted playsinline webkit-playsinline preload="none" class="scroll-video">
             <source src="images/анимация руля лучшая.mp4" type="video/mp4">
         </video>
@@ -1080,19 +1089,19 @@
             <span class="line-mask"><span class="line-text" style="transition-delay: 0.15s;"><span style="text-transform:uppercase;letter-spacing:.04em;">Своя</span></span></span>
             <span class="line-mask"><span class="line-text" style="transition-delay: 0.25s;"><em>мастерская</em></span></span>
         </h2>
-        <div class="sec-body fi d2">
-            <p>Мы изготавливаем и продаём полики EVA самостоятельно — полный контроль качества от начала до конца.</p>
-            <p>Есть готовые комплекты под популярные модели — берёте сразу. Или изготовим на заказ: сота, рубик, бриллиант, любой цвет бортика и окантовки.</p>
+        <div class="sec-body">
+            <p class="fi d2">Мы изготавливаем и продаём полики EVA самостоятельно — полный контроль качества от начала до конца.</p>
+            <p class="fi d3">Есть готовые комплекты под популярные модели — берёте сразу. Или изготовим на заказ: сота, рубик, бриллиант, любой цвет бортика и окантовки.</p>
         </div>
-        <div class="features fi d3">
+        <div class="features fi d4">
             <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Точный крой под модель</strong> — не едут и не мешают педалям</div></div>
             <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Экологичный EVA</strong> — без запаха, моется за секунды</div></div>
             <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>Антискользящее дно</strong> — безопасность в приоритете</div></div>
             <div class="feat"><div class="feat-dot"></div><div class="feat-txt"><strong>На заказ от 1 часа</strong> — быстро и без очередей</div></div>
         </div>
-        <a href="https://wa.me/79887888701" target="_blank" rel="noopener noreferrer" class="btn-primary fi d4 btn-desk">Выбрать полики</a>
+        <a href="https://wa.me/79887888701" target="_blank" rel="noopener noreferrer" class="btn-primary fi d5 btn-desk">Выбрать полики</a>
     </div>
-    <div class="split-media fi d2">
+    <div class="split-media fi d3">
         <video muted loop playsinline webkit-playsinline preload="none" class="scroll-video">
             <source src="images/изготовление поликов.mp4" type="video/mp4">
         </video>
