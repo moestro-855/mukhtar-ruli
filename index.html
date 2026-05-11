@@ -162,12 +162,14 @@
         #hero .hero-sub { transition-delay: 0.5s; }
         #hero .hero-btns { transition-delay: 0.65s; }
 
-        .letter-reveal {
-            opacity: 0; filter: blur(12px);
-            display: inline-block; will-change: opacity, filter;
-            transition: opacity 1.8s cubic-bezier(0.22, 1, 0.36, 1), filter 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+        .hero-line1, .hero-title .red {
+            opacity: 0; filter: blur(24px); transform: scale(1.15);
+            will-change: opacity, filter, transform;
+            transition: opacity 2.5s cubic-bezier(0.16, 1, 0.3, 1), filter 2.5s cubic-bezier(0.16, 1, 0.3, 1), transform 2.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        #hero.hero-ready .letter-reveal { opacity: 1; filter: blur(0); }
+        .hero-line1 { transition-delay: 0.15s; }
+        .hero-title .red { transition-delay: 0.35s; }
+        #hero.hero-ready .hero-line1, #hero.hero-ready .hero-title .red { opacity: 1; filter: blur(0); transform: scale(1); }
 
         .hero-video {
             position: absolute; inset: 0;
@@ -964,8 +966,8 @@
     <div class="hero-content">
         <div class="hero-badge">Автостудия · Махачкала · Семендер</div>
         <h1 class="hero-title">
-            <span class="hero-line1"><span class="letter-reveal" style="transition-delay: 0.05s;">M</span><span class="letter-reveal" style="transition-delay: 0.1s;">U</span><span class="letter-reveal" style="transition-delay: 0.15s;">K</span><span class="letter-reveal" style="transition-delay: 0.2s;">H</span><span class="letter-reveal" style="transition-delay: 0.25s;">T</span><span class="letter-reveal" style="transition-delay: 0.3s;">A</span><span class="letter-reveal" style="transition-delay: 0.35s;">R</span></span><br>
-            <span class="red"><span class="letter-reveal" style="transition-delay: 0.4s;">R</span><span class="letter-reveal" style="transition-delay: 0.45s;">U</span><span class="letter-reveal" style="transition-delay: 0.5s;">L</span><span class="letter-reveal" style="transition-delay: 0.55s;">I</span></span>
+            <span class="hero-line1">MUKHTAR</span><br>
+            <span class="red">RULI</span>
         </h1>
         <p class="hero-sub">Мухтар Рули — Премиум автостудия в Махачкале</p>
         <div class="hero-btns">
