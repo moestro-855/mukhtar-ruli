@@ -159,8 +159,15 @@
             opacity: 1; transform: translateY(0); filter: blur(0);
         }
         #hero .hero-badge { transition-delay: 0.1s; }
-        #hero .hero-sub { transition-delay: 0.45s; }
-        #hero .hero-btns { transition-delay: 0.6s; }
+        #hero .hero-sub { transition-delay: 0.5s; }
+        #hero .hero-btns { transition-delay: 0.65s; }
+
+        .cinematic-focus {
+            opacity: 0; filter: blur(24px); transform: scale(1.15);
+            display: inline-block; will-change: opacity, filter, transform;
+            transition: opacity 2.5s cubic-bezier(0.16, 1, 0.3, 1), filter 2.5s cubic-bezier(0.16, 1, 0.3, 1), transform 2.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #hero.hero-ready .cinematic-focus { opacity: 1; filter: blur(0); transform: scale(1); }
 
         .hero-video {
             position: absolute; inset: 0;
@@ -957,8 +964,8 @@
     <div class="hero-content">
         <div class="hero-badge">Автостудия · Махачкала · Семендер</div>
         <h1 class="hero-title">
-            <span class="line-mask"><span class="line-text" style="transition-delay: 0.2s;"><span class="hero-line1">MUKHTAR</span></span></span>
-            <span class="line-mask"><span class="line-text" style="transition-delay: 0.3s;"><span class="red">RULI</span></span></span>
+            <span class="cinematic-focus" style="transition-delay: 0.15s;"><span class="hero-line1">MUKHTAR</span></span><br>
+            <span class="cinematic-focus" style="transition-delay: 0.35s;"><span class="red">RULI</span></span>
         </h1>
         <p class="hero-sub">Мухтар Рули — Премиум автостудия в Махачкале</p>
         <div class="hero-btns">
