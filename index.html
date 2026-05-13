@@ -1459,17 +1459,28 @@
     const io = new IntersectionObserver((entries) => {
         entries.forEach(e => {
             if (e.isIntersecting) {
-                const lineTexts = e.target.querySelectorAll('.line-text');
-                if (lineTexts.length) {
-                    lineTexts.forEach(lt => { lt.style.willChange = 'transform'; });
-                    setTimeout(() => { lineTexts.forEach(lt => { lt.style.willChange = 'auto'; }); }, 1300);
-                }
                 e.target.classList.add('v');
+                const lts = e.target.querySelectorAll('.line-text');
+                if (lts.length) setTimeout(() => lts.forEach(lt => { lt.style.willChange = 'auto'; }), 1400);
                 io.unobserve(e.target);
             }
         });
     }, { threshold: 0 });
-    document.querySelectorAll('.fi').forEach(el => io.observe(el));
+
+    // Pre-promote line-text layers 400px before viewport — GPU memory allocated
+    // during idle scroll, not at the moment the animation fires (avoids jolt)
+    const prePromoteIo = new IntersectionObserver((entries, obs) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            obs.unobserve(e.target);
+            e.target.querySelectorAll('.line-text').forEach(lt => { lt.style.willChange = 'transform'; });
+        });
+    }, { rootMargin: '0px 0px 400px 0px', threshold: 0 });
+
+    document.querySelectorAll('.fi').forEach(el => {
+        io.observe(el);
+        if (el.querySelector('.line-text')) prePromoteIo.observe(el);
+    });
 
     // Карта Яндекса: не грузим тяжёлый iframe до прокрутки; плавное появление после load
     (function () {
