@@ -1467,15 +1467,17 @@
         });
     }, { threshold: 0 });
 
-    // Pre-promote line-text layers 400px before viewport — GPU memory allocated
+    // Pre-promote line-text layers 800px before viewport — GPU memory allocated
     // during idle scroll, not at the moment the animation fires (avoids jolt)
     const prePromoteIo = new IntersectionObserver((entries, obs) => {
         entries.forEach(e => {
             if (!e.isIntersecting) return;
             obs.unobserve(e.target);
-            e.target.querySelectorAll('.line-text').forEach(lt => { lt.style.willChange = 'transform'; });
+            requestAnimationFrame(() => {
+                e.target.querySelectorAll('.line-text').forEach(lt => { lt.style.willChange = 'transform'; });
+            });
         });
-    }, { rootMargin: '0px 0px 400px 0px', threshold: 0 });
+    }, { rootMargin: '0px 0px 800px 0px', threshold: 0 });
 
     document.querySelectorAll('.fi').forEach(el => {
         io.observe(el);
@@ -1604,7 +1606,8 @@
         });
     });
 
-    // Start card shimmer only when section enters viewport (avoid permanent compositor layers)
+    // Pre-start shimmer 800px before viewport so compositor layers are already
+    // allocated when user scrolls to the section — not allocated at entry (causes jolt)
     (function () {
         const cardsGridShimmer = document.querySelector('.cards-grid');
         if (!cardsGridShimmer) return;
@@ -1612,7 +1615,7 @@
             if (!entries[0].isIntersecting) return;
             obs.disconnect();
             cardsGridShimmer.classList.add('cards-shimmer-on');
-        }, { threshold: 0.1 }).observe(cardsGridShimmer);
+        }, { rootMargin: '0px 0px 800px 0px', threshold: 0 }).observe(cardsGridShimmer);
     }());
 
     // Preload card videos as section approaches viewport (desktop / hover-capable only)
@@ -1629,7 +1632,7 @@
                     document.querySelector('.card.d3 .card-d3-rev'),
                 ].forEach((v, i) => {
                     if (v && v.readyState === 0)
-                        setTimeout(() => v.load(), i * 80);
+                        setTimeout(() => v.load(), i * 300);
                 });
             }, { rootMargin: '0px 0px 800px 0px', threshold: 0 }).observe(cardsGrid);
         }
@@ -1903,7 +1906,7 @@
                 vid2.style.transition = 'none';
                 vid1.style.opacity = '';
                 vid2.style.opacity = '0';
-                vid2.currentTime = 0;
+                setTimeout(() => { vid2.currentTime = 0; }, 200);
             }
         }, { threshold: 0.15 }).observe(vid1);
     }());
