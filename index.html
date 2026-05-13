@@ -780,12 +780,12 @@
                 transparent 100%
             );
             transform: translateX(-180%) skewX(-18deg);
-            animation: card-shimmer 18s linear infinite;
+            animation: card-shimmer 18s linear infinite paused;
             pointer-events: none; z-index: 3;
-            will-change: transform;
         }
-        .card:nth-child(2)::after { animation-delay: 6s; }
-        .card:nth-child(3)::after { animation-delay: 12s; }
+        .cards-shimmer-on .card::after { animation-play-state: running; }
+        .card:nth-child(2)::after { animation-delay: -6s; }
+        .card:nth-child(3)::after { animation-delay: -12s; }
         .card:hover::after { opacity: 0 !important; animation-play-state: paused; }
 
         /* ─── ANIMATIONS ──────────────────────────── */
@@ -847,7 +847,7 @@
         }
 
         @media (max-width: 768px) {
-            .card::after { will-change: auto; animation: none; }
+            .card::after { animation: none; }
             nav { display: none; }
             .burger { display: flex; }
             .sec-title { font-size: clamp(44px, 5.2vw, 74px); }
@@ -1582,6 +1582,17 @@
             vid.currentTime = 0;
         });
     });
+
+    // Start card shimmer only when section enters viewport (avoid permanent compositor layers)
+    (function () {
+        const cardsGridShimmer = document.querySelector('.cards-grid');
+        if (!cardsGridShimmer) return;
+        new IntersectionObserver((entries, obs) => {
+            if (!entries[0].isIntersecting) return;
+            obs.disconnect();
+            cardsGridShimmer.classList.add('cards-shimmer-on');
+        }, { threshold: 0.1 }).observe(cardsGridShimmer);
+    }());
 
     // Preload card videos as section approaches viewport (desktop / hover-capable only)
     if (!window.matchMedia('(hover: none)').matches && window.innerWidth >= 1200) {
