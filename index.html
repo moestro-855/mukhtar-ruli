@@ -155,7 +155,7 @@
             opacity: 0; transform: translateY(18px);
             transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        #hero.hero-ready .hero-badge, #hero.hero-ready .hero-sub, #hero.hero-ready .hero-btns {
+        #hero.hero-text-ready .hero-badge, #hero.hero-text-ready .hero-sub, #hero.hero-text-ready .hero-btns {
             opacity: 1; transform: translateY(0);
         }
         #hero .hero-badge { transition-delay: 0.08s; }
@@ -820,7 +820,7 @@
                         opacity 0.45s ease;
             will-change: clip-path, transform;
         }
-        #hero.hero-ready .hero-title .line-text {
+        #hero.hero-text-ready .hero-title .line-text {
             clip-path: inset(0 0% 0 0);
             transform: translateY(0);
             opacity: 1;
@@ -1301,7 +1301,9 @@
             clearTimeout(heroRevealTimer);
             heroEl.classList.add('hero-ready');
         }
-        /* Плавное появление только после первого отрисованного кадра на canvas (без «вспышки» текста раньше видео) */
+        /* Текст появляется быстро (не ждёт видео) */
+        setTimeout(() => { heroEl.classList.add('hero-text-ready'); heroEl.querySelector('.hero-content').style.pointerEvents = 'auto'; }, 400);
+        /* Видео-canvas: fallback если видео долго грузится */
         heroRevealTimer = setTimeout(revealHero, 2500);
 
         function setSize(v) {
