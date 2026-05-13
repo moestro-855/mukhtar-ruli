@@ -1821,6 +1821,7 @@
         let active = vid1;
         let next = vid2;
         let fading = false;
+        let wasVisible = false;
 
         function onTimeUpdate(e) {
             const v = e.target;
@@ -1852,14 +1853,16 @@
         vid2.addEventListener('timeupdate', onTimeUpdate);
 
         new IntersectionObserver((entries) => {
-            if (!entries[0].isIntersecting) {
+            if (entries[0].isIntersecting) {
+                wasVisible = true;
+            } else if (wasVisible) {
                 vid2.pause();
                 active = vid1;
                 next = vid2;
                 fading = false;
                 vid1.style.transition = 'none';
                 vid2.style.transition = 'none';
-                vid1.style.opacity = '1';
+                vid1.style.opacity = '';
                 vid2.style.opacity = '0';
                 vid2.currentTime = 0;
             }
