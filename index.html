@@ -409,7 +409,7 @@
         .card.d2 .card-vid { transform: scale(1.08); }
         .card.d2:hover .card-vid { transform: scale(1); transition: opacity .4s ease, transform .45s cubic-bezier(0.22, 1, 0.36, 1); }
         .card.d3 .card-vid,
-        .card.d3:hover .card-vid { opacity: 0; transform: scale(1); filter: blur(0); object-fit: cover; object-position: center center; transition: opacity .2s ease; }
+        .card.d3:hover .card-vid { opacity: 0; transform: scale(1); object-fit: cover; object-position: center center; transition: opacity .2s ease; }
         .card.d3 .card-d3-rev { transition: opacity .2s ease; }
         .card-icon, .card-title, .card-txt { transition: opacity .35s ease; }
         .card:hover .card-icon,
@@ -1694,7 +1694,7 @@
                 [fwd, rev].forEach(v => { v.style.transition = 'none'; v.style.opacity = '0'; });
                 fwd.currentTime = WIDE_T; rev.currentTime = 0;
                 [fwd, rev].forEach(v => {
-                    v.style.filter = 'blur(6px)';
+                    v.style.filter = '';
                     v.style.transform = 'scale(1.04)';
                 });
             }, 450);
