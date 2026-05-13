@@ -403,13 +403,12 @@
             object-fit: cover;
             opacity: 0;
             transform: scale(1.04);
-            filter: blur(6px);
-            transition: opacity .35s ease, transform .35s ease, filter .35s ease;
+            transition: opacity .4s ease, transform .45s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        .card:hover .card-vid { transform: scale(1); filter: blur(0); transition: opacity .4s ease, transform .4s ease, filter .55s ease; }
+        .card:hover .card-vid { transform: scale(1); transition: opacity .4s ease, transform .45s cubic-bezier(0.22, 1, 0.36, 1); }
         .card:hover .card-vid.vid-ready { opacity: 1; }
         .card.d2 .card-vid { transform: scale(1.08); }
-        .card.d2:hover .card-vid { transform: scale(1); filter: blur(0); transition: opacity .4s ease, transform .45s cubic-bezier(0.22, 1, 0.36, 1), filter .55s ease; }
+        .card.d2:hover .card-vid { transform: scale(1); transition: opacity .4s ease, transform .45s cubic-bezier(0.22, 1, 0.36, 1); }
         .card.d3 .card-vid,
         .card.d3:hover .card-vid { opacity: 0; transform: scale(1); filter: blur(0); object-fit: cover; object-position: center center; transition: opacity .2s ease; }
         .card.d3 .card-d3-rev { transition: opacity .2s ease; }
@@ -427,12 +426,12 @@
         }
         .card-overlay-txt--right { left: auto; right: 36px; text-align: right; }
         .card:hover .card-overlay-txt { opacity: 1; transform: translateY(0); transition: opacity .5s ease .1s, transform .5s ease .1s; }
-        .card.d1 .card-overlay-txt { filter: blur(10px); transform: none; transition: opacity .35s ease, filter .35s ease; }
-        .card.d1:hover .card-overlay-txt { filter: blur(0); transition: opacity .5s ease .05s, filter .55s ease .05s; }
+        .card.d1 .card-overlay-txt { opacity: 0; transform: translateY(10px); transition: opacity .35s ease, transform .35s ease; }
+        .card.d1:hover .card-overlay-txt { opacity: 1; transform: translateY(0); transition: opacity .5s ease .05s, transform .5s ease .05s; }
         .card.d2 .card-overlay-txt { opacity: 0; transform: translateX(-28px); transition: opacity .35s ease, transform .35s cubic-bezier(0.22, 1, 0.36, 1); }
         .card.d2:hover .card-overlay-txt { opacity: 1; transform: translateX(0); transition: opacity .5s ease .05s, transform .55s cubic-bezier(0.22, 1, 0.36, 1) .05s; }
-        .card.d3 .card-overlay-txt { filter: blur(10px); transform: none; opacity: 0; transition: opacity .35s ease, filter .35s ease; }
-        .card.d3:hover .card-overlay-txt { opacity: 0.78; filter: blur(0); transition: opacity .5s ease .05s, filter .55s ease .05s; }
+        .card.d3 .card-overlay-txt { opacity: 0; transform: translateY(8px); transition: opacity .35s ease, transform .35s ease; }
+        .card.d3:hover .card-overlay-txt { opacity: 0.78; transform: translateY(0); transition: opacity .5s ease .05s, transform .5s ease .05s; }
         @property --p1 { syntax: '<percentage>'; inherits: false; initial-value: 5%; }
         @property --p2 { syntax: '<percentage>'; inherits: false; initial-value: 5%; }
         @property --p3 { syntax: '<percentage>'; inherits: false; initial-value: 5%; }
@@ -889,7 +888,7 @@
         /* Touch devices / narrow screens: disable all card hover effects and shimmer */
         @media (hover: none), (max-width: 1199px) {
             .card:hover { border-color: var(--border); background: var(--s2); }
-            .card:hover .card-vid { opacity: 0 !important; transform: scale(1.04) !important; filter: blur(6px) !important; }
+            .card:hover .card-vid { opacity: 0 !important; transform: scale(1.04) !important; }
             .card:hover .card-overlay-txt { opacity: 0 !important; }
             .card:hover .card-icon,
             .card:hover .card-title,
@@ -897,6 +896,18 @@
             .card::after { animation: none; opacity: 0 !important; }
             .card.d3 .card-d3-fwd,
             .card.d3 .card-d3-rev { display: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .fi, .hero-badge, .hero-sub, .hero-btns,
+            #hero .hero-title .line-text, .line-text,
+            .split-media video, .detail-video video {
+                transition: none !important; animation: none !important;
+                opacity: 1 !important; transform: none !important;
+                clip-path: none !important;
+            }
+            .card::after { animation: none !important; }
+            .hero-line1, .hero-title .red { animation: none !important; }
         }
 
         @media (max-width: 480px) {
@@ -1303,6 +1314,8 @@
         }
         /* Текст появляется быстро (не ждёт видео) */
         setTimeout(() => { heroEl.classList.add('hero-text-ready'); heroEl.querySelector('.hero-content').style.pointerEvents = 'auto'; }, 400);
+        /* Снимаем will-change после завершения анимации заголовка (~2.8s) */
+        setTimeout(() => { heroEl.querySelectorAll('.hero-title .line-text').forEach(el => { el.style.willChange = 'auto'; }); }, 2800);
         /* Видео-canvas: fallback если видео долго грузится */
         heroRevealTimer = setTimeout(revealHero, 2500);
 
@@ -1587,7 +1600,7 @@
                     if (v && v.readyState === 0)
                         setTimeout(() => v.load(), i * 80);
                 });
-            }, { rootMargin: '0px 0px 1500px 0px', threshold: 0 }).observe(cardsGrid);
+            }, { rootMargin: '0px 0px 800px 0px', threshold: 0 }).observe(cardsGrid);
         }
     }
 
@@ -1743,7 +1756,7 @@
                 if (!entries[0].isIntersecting) return;
                 obs.disconnect();
                 if (vid.readyState === 0) vid.load();
-            }, { rootMargin: '0px 0px 1800px 0px', threshold: 0 }).observe(detailSection);
+            }, { rootMargin: '0px 0px 900px 0px', threshold: 0 }).observe(detailSection);
         }
 
         if (window.innerWidth < 1200) return;
