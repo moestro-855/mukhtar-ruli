@@ -1302,14 +1302,21 @@
         let heroRevealTimer;
         let heroRevealed = false;
         const heroEl = document.getElementById('hero');
+        const isMobile = window.innerWidth <= 768;
+        function revealTextHero() {
+            heroEl.classList.add('hero-text-ready');
+            heroEl.querySelector('.hero-content').style.pointerEvents = 'auto';
+        }
         function revealHero() {
             if (heroRevealed) return;
             heroRevealed = true;
             clearTimeout(heroRevealTimer);
             heroEl.classList.add('hero-ready');
+            /* На мобилке текст ждёт первого кадра видео — не показывать на чёрном */
+            if (isMobile) revealTextHero();
         }
-        /* Текст появляется быстро (не ждёт видео) */
-        setTimeout(() => { heroEl.classList.add('hero-text-ready'); heroEl.querySelector('.hero-content').style.pointerEvents = 'auto'; }, 400);
+        /* Десктоп: текст появляется через 400ms (не ждёт видео) */
+        if (!isMobile) setTimeout(revealTextHero, 400);
         /* Снимаем will-change после завершения анимации заголовка (~2.8s) */
         setTimeout(() => { heroEl.querySelectorAll('.hero-title .line-text').forEach(el => { el.style.willChange = 'auto'; }); }, 2800);
         /* Видео-canvas: fallback если видео долго грузится */
