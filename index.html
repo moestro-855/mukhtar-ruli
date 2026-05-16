@@ -380,7 +380,7 @@
             background: var(--s2); border: 1px solid var(--border);
             padding: 96px 58px; transition: border-color .3s, background .3s;
             position: relative; overflow: hidden;
-            isolation: isolate;
+            z-index: 0;
         }
         .card:hover { border-color: rgba(200,16,46,.5); background: #0d0d0d; }
 
@@ -508,7 +508,6 @@
             position: relative; overflow: hidden;
             border: 1px solid var(--border); aspect-ratio: 3/4;
             background: #060606;
-            transform: translateZ(0);
         }
         .detail-video video {
             position: absolute; inset: 0;
@@ -1567,10 +1566,13 @@
                 }
             } else {
                 v.removeAttribute('autoplay');
-                v.pause();
                 _wantPlay.delete(v);
-                // Defer seek — synchronous currentTime=0 during scroll causes frame drop
-                setTimeout(() => { if (v.paused && !_wantPlay.has(v)) v.currentTime = 0; }, 200);
+                // Defer both pause and seek out of the scroll frame — avoids GPU sync stall
+                setTimeout(() => {
+                    if (_wantPlay.has(v)) return;
+                    v.pause();
+                    setTimeout(() => { if (v.paused && !_wantPlay.has(v)) v.currentTime = 0; }, 200);
+                }, 80);
             }
         });
     }, { threshold: 0.25 });
@@ -1624,14 +1626,15 @@
         });
     });
 
-    // Start shimmer after page settles (not scroll-triggered).
-    // scroll-triggered approach fired mid-ruli-section causing compound jolt with ruli animations.
-    // Starting at 1000ms after load: layers allocated while user reads hero, no scroll moment.
+    // Start shimmer in the second animation frame after page render — compositor layers
+    // allocated before any scroll event, eliminating scroll-triggered jolt entirely.
     (function () {
         const cardsGrid = document.querySelector('.cards-grid');
         if (!cardsGrid) return;
         if (window.matchMedia('(hover: none)').matches || window.innerWidth < 1200) return;
-        setTimeout(() => { cardsGrid.classList.add('cards-shimmer-on'); }, 1000);
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => { cardsGrid.classList.add('cards-shimmer-on'); });
+        });
     }());
 
     // Preload card videos as section approaches viewport (desktop / hover-capable only)
