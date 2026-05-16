@@ -1460,34 +1460,45 @@
     }, { threshold: 0.1 });
     footerLogoObserver.observe(document.getElementById('footerLogo'));
 
-    // Fade-in on scroll — threshold:0 fires the moment first pixel enters viewport,
-    // eliminating the blank-then-snap effect from the old 8% threshold
+    // Fade-in on scroll — threshold:0 fires the moment first pixel enters viewport.
+    // Cards (horizontal grid) enter simultaneously — stagger v-class to spread
+    // compositor layer creation: d1 at 0ms, d2 at 120ms, d3 at 240ms.
     const io = new IntersectionObserver((entries) => {
         entries.forEach(e => {
             if (e.isIntersecting) {
-                e.target.classList.add('v');
-                const lts = e.target.querySelectorAll('.line-text');
-                if (lts.length) setTimeout(() => lts.forEach(lt => { lt.style.willChange = 'auto'; }), 1400);
-                io.unobserve(e.target);
+                const el = e.target;
+                const isCard = el.classList.contains('card');
+                const stagger = isCard && el.classList.contains('d2') ? 120
+                              : isCard && el.classList.contains('d3') ? 240 : 0;
+                io.unobserve(el);
+                setTimeout(() => {
+                    el.classList.add('v');
+                    const lts = el.querySelectorAll('.line-text');
+                    if (lts.length) setTimeout(() => lts.forEach(lt => { lt.style.willChange = 'auto'; }), 1400);
+                    // Clean up card will-change after opacity+transform transition (900ms)
+                    if (isCard) setTimeout(() => { el.style.willChange = 'auto'; }, 1000);
+                }, stagger);
             }
         });
     }, { threshold: 0 });
 
-    // Pre-promote line-text layers 800px before viewport — GPU memory allocated
-    // during idle scroll, not at the moment the animation fires (avoids jolt)
+    // Pre-promote layers 800px before viewport — GPU memory allocated during idle
+    // scroll, not at the moment the animation fires (avoids compositor layer jolt).
+    // Covers: line-text (clip-path wipe) + cards (opacity+transform fade-in).
     const prePromoteIo = new IntersectionObserver((entries, obs) => {
         entries.forEach(e => {
             if (!e.isIntersecting) return;
             obs.unobserve(e.target);
             requestAnimationFrame(() => {
                 e.target.querySelectorAll('.line-text').forEach(lt => { lt.style.willChange = 'transform'; });
+                if (e.target.classList.contains('card')) e.target.style.willChange = 'opacity, transform';
             });
         });
     }, { rootMargin: '0px 0px 800px 0px', threshold: 0 });
 
     document.querySelectorAll('.fi').forEach(el => {
         io.observe(el);
-        if (el.querySelector('.line-text')) prePromoteIo.observe(el);
+        if (el.querySelector('.line-text') || el.classList.contains('card')) prePromoteIo.observe(el);
     });
 
     // Карта Яндекса: не грузим тяжёлый iframe до прокрутки; плавное появление после load
