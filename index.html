@@ -1568,8 +1568,9 @@
             } else {
                 v.removeAttribute('autoplay');
                 v.pause();
-                v.currentTime = 0;
                 _wantPlay.delete(v);
+                // Defer seek — synchronous currentTime=0 during scroll causes frame drop
+                setTimeout(() => { if (v.paused && !_wantPlay.has(v)) v.currentTime = 0; }, 200);
             }
         });
     }, { threshold: 0.25 });
