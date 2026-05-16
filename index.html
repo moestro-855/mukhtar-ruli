@@ -1637,25 +1637,9 @@
         });
     }());
 
-    // Preload card videos as section approaches viewport (desktop / hover-capable only)
-    if (!window.matchMedia('(hover: none)').matches && window.innerWidth >= 1200) {
-        const cardsGrid = document.querySelector('.cards-grid');
-        if (cardsGrid) {
-            new IntersectionObserver((entries, obs) => {
-                if (!entries[0].isIntersecting) return;
-                obs.disconnect();
-                [
-                    document.querySelector('.card.d1 .card-vid'),
-                    document.querySelector('.card.d2 .card-vid'),
-                    document.querySelector('.card.d3 .card-d3-fwd'),
-                    document.querySelector('.card.d3 .card-d3-rev'),
-                ].forEach((v, i) => {
-                    if (v && v.readyState === 0)
-                        setTimeout(() => v.load(), i * 300);
-                });
-            }, { rootMargin: '0px 0px 800px 0px', threshold: 0 }).observe(cardsGrid);
-        }
-    }
+    // Card videos load on first hover (mouseenter handler below) — not preloaded.
+    // Preloading during scroll caused network+decode activity mid-scroll = jank.
+    // First hover has brief load delay; subsequent hovers use browser cache.
 
     // Card d3 ping-pong
     (function () {
