@@ -1311,11 +1311,11 @@
             heroRevealed = true;
             clearTimeout(heroRevealTimer);
             heroEl.classList.add('hero-ready');
-            /* На мобилке текст ждёт первого кадра видео — не показывать на чёрном */
-            if (isMobile) revealTextHero();
+            revealTextHero(); // текст всегда появляется вместе с видео
         }
-        /* Десктоп: текст появляется через 400ms (не ждёт видео) */
-        if (!isMobile) setTimeout(revealTextHero, 400);
+        /* Десктоп: текст через 400ms — но только если видео уже есть.
+           Если видео ещё не готово — ждём revealHero (первый кадр canvas). */
+        if (!isMobile) setTimeout(() => { if (heroRevealed) revealTextHero(); }, 400);
         /* Снимаем will-change после завершения анимации заголовка (~2.8s) */
         setTimeout(() => { heroEl.querySelectorAll('.hero-title .line-text').forEach(el => { el.style.willChange = 'auto'; }); }, 2800);
         /* Видео-canvas: fallback если видео долго грузится */
