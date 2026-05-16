@@ -1623,16 +1623,14 @@
         });
     });
 
-    // Pre-start shimmer 800px before viewport so compositor layers are already
-    // allocated when user scrolls to the section — not allocated at entry (causes jolt)
+    // Start shimmer after page settles (not scroll-triggered).
+    // scroll-triggered approach fired mid-ruli-section causing compound jolt with ruli animations.
+    // Starting at 1000ms after load: layers allocated while user reads hero, no scroll moment.
     (function () {
-        const cardsGridShimmer = document.querySelector('.cards-grid');
-        if (!cardsGridShimmer) return;
-        new IntersectionObserver((entries, obs) => {
-            if (!entries[0].isIntersecting) return;
-            obs.disconnect();
-            cardsGridShimmer.classList.add('cards-shimmer-on');
-        }, { rootMargin: '0px 0px 800px 0px', threshold: 0 }).observe(cardsGridShimmer);
+        const cardsGrid = document.querySelector('.cards-grid');
+        if (!cardsGrid) return;
+        if (window.matchMedia('(hover: none)').matches || window.innerWidth < 1200) return;
+        setTimeout(() => { cardsGrid.classList.add('cards-shimmer-on'); }, 1000);
     }());
 
     // Preload card videos as section approaches viewport (desktop / hover-capable only)
