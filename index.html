@@ -886,14 +886,13 @@
         /* Touch devices / narrow screens: disable all card hover effects and shimmer */
         @media (hover: none), (max-width: 1199px) {
             .card:hover { border-color: var(--border); background: var(--s2); }
-            .card:hover .card-vid { opacity: 0 !important; transform: scale(1.04) !important; }
             .card:hover .card-overlay-txt { opacity: 0 !important; }
             .card:hover .card-icon,
             .card:hover .card-title,
             .card:hover .card-txt { opacity: 1 !important; }
             .card::after { animation: none; opacity: 0 !important; }
-            .card.d3 .card-d3-fwd,
-            .card.d3 .card-d3-rev { display: none; }
+            /* Hide all card videos — no hover on touch, prevents context menu on long-press */
+            .card-vid { display: none; }
         }
 
         @media (prefers-reduced-motion: reduce) {
